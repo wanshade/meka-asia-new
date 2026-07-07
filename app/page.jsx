@@ -184,9 +184,9 @@ const pageMarkup = String.raw`
 <section id="experience" class="relative">
   <div id="filmStage" class="relative h-screen overflow-hidden bg-black">
     <div class="film-slide absolute inset-0"><img src="/morning-at-home-living-maldives.jpeg" class="w-full h-full object-cover object-center" alt="Morning at home balcony view"></div>
-    <div class="film-slide absolute inset-0 opacity-0"><img src="/living-asia-entrance-visit.jpeg" class="w-full h-full object-cover object-center" alt="Living Asia entrance walkthrough"></div>
+    <div class="film-slide absolute inset-0 opacity-0"><img src="/living-asia-entrance-visit.jpeg" class="w-full h-full object-cover object-[72%_center] md:object-center" alt="Living Asia entrance walkthrough"></div>
     <div class="film-slide absolute inset-0 opacity-0"><img src="/living-room-maldives.jpeg" class="w-full h-full object-cover object-center" alt="Living room lounge at midday"></div>
-    <div class="film-slide absolute inset-0 opacity-0"><img src="/poolside-afternoon.png" class="w-full h-full object-cover object-center" alt="Poolside afternoon at home"></div>
+    <div class="film-slide absolute inset-0 opacity-0"><img src="/poolside-afternoon.png" class="w-full h-full object-cover object-[32%_center] md:object-center" alt="Poolside afternoon at home"></div>
     <div class="film-slide absolute inset-0 opacity-0"><img src="https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?q=80&w=2400&auto=format&fit=crop" class="w-full h-full object-cover" alt=""></div>
     <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(15,30,22,.75),rgba(0,0,0,.2) 50%,rgba(0,0,0,.35))"></div>
     <div class="absolute inset-0 flex flex-col justify-center" style="padding:0 clamp(20px,5vw,84px)">
