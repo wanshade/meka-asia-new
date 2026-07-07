@@ -184,9 +184,9 @@ const pageMarkup = String.raw`
 <section id="experience" class="relative">
   <div id="filmStage" class="relative h-screen overflow-hidden bg-black">
     <div class="film-slide absolute inset-0"><img src="/morning-at-home-living-maldives.jpeg" class="w-full h-full object-cover object-center" alt="Morning at home balcony view"></div>
-    <div class="film-slide absolute inset-0 opacity-0"><img src="/living-asia-entrance-visit.jpeg" class="w-full h-full object-cover object-[72%_center] md:object-center" alt="Living Asia entrance walkthrough"></div>
+    <div class="film-slide absolute inset-0 opacity-0"><img src="/living-asia-entrance-visit.jpeg" class="w-full h-full object-cover object-left md:object-center" alt="Living Asia entrance walkthrough"></div>
     <div class="film-slide absolute inset-0 opacity-0"><img src="/living-room-maldives.jpeg" class="w-full h-full object-cover object-center" alt="Living room lounge at midday"></div>
-    <div class="film-slide absolute inset-0 opacity-0"><img src="/poolside-afternoon.png" class="w-full h-full object-cover object-[32%_center] md:object-center" alt="Poolside afternoon at home"></div>
+    <div class="film-slide absolute inset-0 opacity-0"><img src="/poolside-afternoon.png" class="w-full h-full object-cover object-[68%_center] md:object-center" alt="Poolside afternoon at home"></div>
     <div class="film-slide absolute inset-0 opacity-0"><img src="https://images.unsplash.com/photo-1502005229762-cf1b2da7c5d6?q=80&w=2400&auto=format&fit=crop" class="w-full h-full object-cover" alt=""></div>
     <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(15,30,22,.75),rgba(0,0,0,.2) 50%,rgba(0,0,0,.35))"></div>
     <div class="absolute inset-0 flex flex-col justify-center" style="padding:0 clamp(20px,5vw,84px)">
@@ -341,11 +341,17 @@ const pageMarkup = String.raw`
 export default function Home() {
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const isMobile = window.matchMedia("(max-width: 767px)").matches;
     let lenis;
     let active = true;
 
     gsap.registerPlugin(ScrollTrigger);
+    ScrollTrigger.config({ ignoreMobileResize: true });
     gsap.set(".ln>span", { yPercent: 115 });
+    gsap.set(["#heroMedia", "#bleedImg", "#whyMekaImg", ".film-slide"], {
+      force3D: true,
+      willChange: "transform, opacity",
+    });
 
     gsap.to(".ln>span", {
       yPercent: 0,
@@ -356,7 +362,13 @@ export default function Home() {
     });
 
     if (!reduced) {
-      lenis = new Lenis({ lerp: 0.09 });
+      lenis = new Lenis({
+        lerp: isMobile ? 0.07 : 0.075,
+        wheelMultiplier: isMobile ? 0.85 : 0.72,
+        touchMultiplier: isMobile ? 0.85 : 1,
+        syncTouch: isMobile,
+        syncTouchLerp: 0.075,
+      });
       const raf = (time) => {
         if (!active) return;
         lenis.raf(time);
@@ -377,43 +389,43 @@ export default function Home() {
     });
 
     gsap.to("#heroMedia", {
-      yPercent: 12,
+      yPercent: isMobile ? 5 : 12,
       ease: "none",
       scrollTrigger: {
         trigger: "#home",
         start: "top top",
         end: "bottom top",
-        scrub: true,
+        scrub: isMobile ? 0.8 : 1.1,
       },
     });
 
     gsap.fromTo(
       "#bleedImg",
-      { yPercent: -8 },
+      { yPercent: isMobile ? -3 : -8 },
       {
-        yPercent: 8,
+        yPercent: isMobile ? 3 : 8,
         ease: "none",
         scrollTrigger: {
           trigger: "#villa",
           start: "top bottom",
           end: "bottom top",
-          scrub: true,
+          scrub: isMobile ? 0.85 : 1.15,
         },
       }
     );
 
     gsap.fromTo(
       "#whyMekaImg",
-      { yPercent: -7, scale: 1.16 },
+      { yPercent: isMobile ? -3 : -7, scale: isMobile ? 1.1 : 1.16 },
       {
-        yPercent: 7,
-        scale: 1.16,
+        yPercent: isMobile ? 3 : 7,
+        scale: isMobile ? 1.1 : 1.16,
         ease: "none",
         scrollTrigger: {
           trigger: "#why-meka",
           start: "top bottom",
           end: "bottom top",
-          scrub: true,
+          scrub: isMobile ? 0.85 : 1.15,
         },
       }
     );
@@ -493,23 +505,30 @@ export default function Home() {
       "Future Secured",
     ];
     const total = slides.length;
-    const isMobile = window.innerWidth < 768;
+    const setSlideOpacity = slides.map((slide) => gsap.quickSetter(slide, "opacity"));
+    const setProgress = progress ? gsap.quickSetter(progress, "scaleX") : null;
+    let activeFilmIndex = -1;
 
     ScrollTrigger.create({
       trigger: "#filmStage",
       start: "top top",
-      end: isMobile ? "+=1600" : "+=2500",
+      end: isMobile ? "+=1900" : "+=2500",
       pin: true,
-      scrub: 1,
+      scrub: isMobile ? 1.25 : 1.4,
+      anticipatePin: 1,
+      fastScrollEnd: true,
       onUpdate: (self) => {
         const segment = self.progress * (total - 1);
-        slides.forEach((slide, index) => {
-          slide.style.opacity = Math.max(0, 1 - Math.abs(segment - index));
+        setSlideOpacity.forEach((setOpacity, index) => {
+          setOpacity(Math.max(0, 1 - Math.abs(segment - index)));
         });
         const index = Math.min(total - 1, Math.round(segment));
-        if (clock) clock.textContent = times[index];
-        if (label) label.textContent = labels[index];
-        if (progress) progress.style.transform = `scaleX(${self.progress})`;
+        if (index !== activeFilmIndex) {
+          activeFilmIndex = index;
+          if (clock) clock.textContent = times[index];
+          if (label) label.textContent = labels[index];
+        }
+        setProgress?.(self.progress);
       },
     });
 
