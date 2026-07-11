@@ -14,7 +14,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata = {
-  title: "Meka Asia Property - Luxury Living in Lombok",
+  title: "Meka Asia Property - Dream Home in Lombok",
   description:
     "Premium residential developments in Lombok by Meka Asia Property.",
 };

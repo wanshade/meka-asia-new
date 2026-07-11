@@ -587,3 +587,235 @@ html[data-motion="reduced"] .cinematic-wrapper {
 html[data-motion="reduced"] .cinematic-stage {
   position: relative;
 }
+
+/* ---- News & Recognition / Artikel ---- */
+.artikel-card {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.artikel-card:hover {
+  border-color: rgba(196, 154, 74, 0.45);
+  box-shadow: 0 12px 32px rgba(15, 30, 22, 0.06);
+}
+
+.artikel-card-media {
+  isolation: isolate;
+}
+
+.artikel-card-media picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.artikel-card-img {
+  transition: transform 0.55s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .artikel-card:hover .artikel-card-img {
+    transform: scale(1.03);
+  }
+
+  .artikel-card:hover .artikel-card-link {
+    color: #204130;
+  }
+}
+
+.artikel-card-link {
+  transition: color 0.25s ease;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+}
+
+.artikel-body h2 {
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(1.2rem, 2.2vw, 1.45rem);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: #1f1b13;
+  margin: 2rem 0 0.85rem;
+  line-height: 1.3;
+}
+
+.artikel-body p {
+  color: rgba(31, 27, 19, 0.78);
+  font-weight: 300;
+  margin: 0 0 1.15rem;
+}
+
+.artikel-body p:last-child {
+  margin-bottom: 0;
+}
+
+.artikel-body strong {
+  font-weight: 600;
+  color: #1f1b13;
+}
+
+.artikel-body a {
+  color: #204130;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: rgba(196, 154, 74, 0.55);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .artikel-card-img,
+  .artikel-card,
+  .artikel-card-link {
+    transition: none;
+  }
+
+  .artikel-card:hover .artikel-card-img {
+    transform: none;
+  }
+}
+
+/* ---- Promo popup (iklan) — simple photo modal ---- */
+html.promo-modal-open,
+html.promo-modal-open body {
+  overflow: hidden !important;
+}
+
+.promo-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(12px, 2.4vw, 28px);
+  padding-bottom: max(clamp(12px, 2.4vw, 28px), env(safe-area-inset-bottom));
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+.promo-overlay.is-visible {
+  opacity: 1;
+}
+
+.promo-dialog {
+  position: relative;
+  display: inline-block;
+  width: auto;
+  max-width: min(420px, calc(100vw - 24px));
+  max-height: min(92svh, 880px);
+  background: transparent;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  line-height: 0;
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+  transition: opacity 240ms ease, transform 240ms ease;
+}
+
+.promo-dialog.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.promo-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.promo-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 3;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  border: none;
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  transition: background 0.15s ease;
+}
+
+.promo-close:hover {
+  background: rgba(0, 0, 0, 0.72);
+}
+
+.promo-close:focus-visible {
+  outline: 2px solid #c49a4a;
+  outline-offset: 2px;
+}
+
+.promo-poster-wrap {
+  display: block;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  line-height: 0;
+}
+
+.promo-poster {
+  display: block;
+  width: auto;
+  max-width: min(420px, calc(100vw - 24px));
+  height: auto;
+  max-height: min(88svh, 840px);
+  object-fit: contain;
+  border-radius: 12px;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+@media (max-width: 480px) {
+  .promo-dialog {
+    max-width: calc(100vw - 28px);
+  }
+
+  .promo-close {
+    top: 6px;
+    right: 6px;
+    width: 28px;
+    height: 28px;
+    font-size: 1.05rem;
+  }
+
+  .promo-poster {
+    max-width: calc(100vw - 28px);
+    max-height: 86svh;
+    border-radius: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .promo-overlay,
+  .promo-dialog,
+  .promo-close {
+    transition: none;
+  }
+
+  .promo-dialog {
+    transform: none;
+  }
+}

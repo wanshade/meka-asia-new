@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "optimize:images": "node scripts/optimize-images.mjs"
+    "optimize:images": "node scripts/optimize-images.mjs",
+    "optimize:artikel": "node scripts/optimize-artikel-images.mjs"
   },
   "dependencies": {
     "@tailwindcss/postcss": "4.3.2",
