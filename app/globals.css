@@ -14,9 +14,10 @@
   box-sizing: border-box;
 }
 
+/* clip avoids creating a scrollport that breaks position:sticky (unlike hidden) */
 html,
 body {
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100vw;
 }
 
@@ -60,15 +61,21 @@ h4,
   font-family: var(--font-playfair), serif;
 }
 
+/*
+ * Reveal start state — opacity:0 until JS (IO on mobile / ScrollTrigger on desktop).
+ * Translate is owned by GSAP. .is-revealed is a CSS safety net if a tween is interrupted.
+ */
 .rv {
   opacity: 0;
-  transform: translateY(26px);
 }
 
 .wipe {
   opacity: 0;
-  clip-path: inset(0 0 100% 0);
-  transform: translateY(10px);
+}
+
+.rv.is-revealed,
+.wipe.is-revealed {
+  opacity: 1;
 }
 
 .rule {
@@ -76,22 +83,30 @@ h4,
   transform-origin: top;
 }
 
+/* Fullscreen media: avoid permanent compositor layers */
 #heroMedia,
-#bleedImg,
-#whyMekaImg,
+.parallax-media,
 #filmStage,
 .hero-slide,
 .hero-slide img,
 .hero-slide video,
 .film-slide,
-.film-slide img {
+.film-slide img,
+.film-slide picture {
   backface-visibility: hidden;
-  transform: translateZ(0);
-  will-change: transform, opacity;
 }
 
 .hero-slide {
   inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.hero-slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 .hero-slide picture {
@@ -104,6 +119,17 @@ h4,
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.hero-poster {
+  transition: opacity 0.4s ease;
+  z-index: 1;
+}
+
+.hero-poster.is-hidden {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
 }
 
 .hero-dot {
@@ -127,8 +153,11 @@ h4,
   border-color: rgba(252, 249, 243, 0.9);
 }
 
+/* Progress bar — transform only (scaleX) */
 #filmProg {
   will-change: transform;
+  transform: scaleX(0);
+  transform-origin: left center;
 }
 
 .nav-shell {
@@ -139,7 +168,7 @@ h4,
   padding: 0.72rem clamp(14px, 2vw, 24px);
   border: 1px solid rgba(252, 249, 243, 0.66);
   border-radius: 999px;
-  background: rgba(252, 249, 243, 0.82);
+  background: rgba(252, 249, 243, 0.92);
   box-shadow: 0 18px 48px rgba(15, 30, 22, 0.16);
   backdrop-filter: blur(18px);
   transform: translateX(-50%);
@@ -198,17 +227,145 @@ h4,
   transform: translateX(5px);
 }
 
-.pcard img {
+.pcard img,
+.pcard picture {
   transition: transform 1.1s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.pcard picture {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .pcard:hover img {
   transform: scale(1.06);
 }
 
+/* Touch devices: no expensive hover transforms */
+@media (hover: none) {
+  .pcard:hover img {
+    transform: none;
+  }
+
+  .btn:hover .arw {
+    transform: none;
+  }
+
+  .brand-marquee-card:hover img {
+    transform: none;
+    opacity: 0.82;
+  }
+
+  .hero-dot:hover {
+    border-color: rgba(252, 249, 243, 0.55);
+  }
+}
+
+/* Parallax: oversized media inside overflow-hidden frame */
+.parallax-frame {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.parallax-media,
 .fbleed-bg {
   height: 120%;
   top: -10%;
+  left: 0;
+  right: 0;
+}
+
+.parallax-media picture,
+.parallax-media img,
+.fbleed-bg picture,
+.fbleed-bg img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Hero / sticky stage: mobile stable svh only — never overwrite with dvh on mobile */
+#home {
+  min-height: 100svh;
+  height: 100svh;
+}
+
+/* CSS sticky cinematic (no GSAP pin spacer) — see one-day-with-meka-asia.md */
+.cinematic-wrapper {
+  position: relative;
+  /* Mobile pacing: ~450svh; desktop overridden below */
+  height: 450svh;
+}
+
+.cinematic-stage {
+  position: sticky;
+  top: 0;
+  min-height: 100svh;
+  height: 100svh;
+  width: 100%;
+}
+
+.film-slide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  will-change: auto;
+}
+
+.film-slide.is-active {
+  visibility: visible;
+  pointer-events: auto;
+  will-change: opacity, transform;
+}
+
+.film-slide picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.film-slide picture img,
+.film-slide > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Transform-only motion is applied on .film-slide */
+  transform-origin: center center;
+}
+
+#filmClock,
+#filmLabel {
+  will-change: opacity, transform;
+}
+
+#filmProg {
+  transform-origin: left center;
+  will-change: transform;
+}
+
+.film-desktop {
+  display: block;
+}
+
+/* WebGL canvases — CSS gradient fallback via ::after / .gl-fallback */
+.gl-canvas {
+  display: none;
+}
+
+html[data-webgl="on"] .gl-canvas {
+  display: block;
+}
+
+.gl-fallback {
+  display: block;
+  pointer-events: none;
+}
+
+html[data-webgl="on"] .gl-fallback {
+  display: none;
 }
 
 .brand-marquee-shell {
@@ -245,6 +402,10 @@ h4,
   width: max-content;
   gap: clamp(8px, 1.4vw, 16px);
   animation: brand-marquee 28s linear infinite;
+}
+
+.brand-marquee-shell.is-paused .brand-marquee-track {
+  animation-play-state: paused;
 }
 
 .brand-marquee-card {
@@ -297,12 +458,132 @@ textarea {
   font-family: var(--font-inter), sans-serif;
 }
 
-@media (max-width: 767px) {
-  .rv {
-    transform: translateY(18px);
+/* Footer only — avoid content-visibility on sections with ScrollTrigger reveals */
+footer {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  #home {
+    /* Desktop may use dvh for better chrome fit */
+    height: 100dvh;
+    min-height: 100svh;
   }
 
-  .wipe {
-    transform: translateY(6px);
+  .cinematic-wrapper {
+    /* Desktop pacing: longer hold + ending */
+    height: 550svh;
   }
+
+  .cinematic-stage {
+    /* Keep svh so sticky stage height stays stable during scroll chrome changes */
+    height: 100svh;
+    min-height: 100svh;
+  }
+
+}
+
+@media (max-width: 767px) {
+  /* Mobile: no clip-path wipe — opacity + small Y only */
+  .wipe {
+    clip-path: none;
+  }
+
+  .rule {
+    transform: scaleY(0);
+  }
+
+  /* Solid nav — backdrop-filter is expensive during scroll on phones */
+  .nav-shell {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(252, 249, 243, 0.96);
+  }
+
+  .gl-canvas {
+    display: none !important;
+  }
+
+  .gl-fallback {
+    display: block !important;
+  }
+
+  /* Prefer lighter paint path on phones */
+  .rv,
+  .wipe {
+    will-change: auto;
+  }
+}
+
+/* No-JS / scripting disabled: content must not stay invisible */
+@media (scripting: none) {
+  .rv,
+  .wipe {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+  }
+
+  .rule {
+    transform: none;
+  }
+
+  .hero-slide.is-active,
+  .hero-slide:first-child {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rv,
+  .wipe {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+  }
+
+  .rule {
+    transform: none;
+  }
+
+  .brand-marquee-track {
+    animation: none;
+  }
+
+  .pcard img {
+    transition: none;
+  }
+
+  .gl-canvas {
+    display: none !important;
+  }
+
+  .gl-fallback {
+    display: block !important;
+  }
+
+  #filmProg {
+    will-change: auto;
+  }
+
+  .cinematic-wrapper {
+    height: auto;
+  }
+
+  .cinematic-stage {
+    position: relative;
+    height: auto;
+    min-height: 100svh;
+  }
+}
+
+html[data-motion="reduced"] .cinematic-wrapper {
+  height: auto;
+}
+
+html[data-motion="reduced"] .cinematic-stage {
+  position: relative;
 }
