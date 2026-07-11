@@ -27,9 +27,43 @@ const pageMarkup = String.raw`
 <!-- HERO -->
 <section id="home" class="relative h-screen overflow-hidden">
   <div class="absolute inset-0" style="z-index:0">
-    <video id="heroMedia" class="w-full h-[120%] object-cover" autoplay muted loop playsinline preload="auto" poster="/entrance-living-asia-poster.jpg">
-      <source src="/entrance-living-asia-lite.webm" type="video/webm">
-    </video>
+    <div id="heroMedia" class="absolute inset-0 w-full h-[120%]">
+      <div class="hero-slide absolute inset-0" data-hero="video">
+        <video id="heroVideo" class="w-full h-full object-cover" autoplay muted loop playsinline preload="auto" poster="/entrance-living-asia-poster.jpg">
+          <source src="/entrance-living-asia-lite.webm" type="video/webm">
+        </video>
+      </div>
+      <div class="hero-slide absolute inset-0 opacity-0" data-hero="photo">
+        <picture>
+          <source media="(max-width: 767px)" srcset="/hero/green-asia-mobile.jpeg">
+          <img src="/hero/green-asia.jpeg" class="w-full h-full object-cover" alt="Green Asia residence" fetchpriority="high">
+        </picture>
+      </div>
+      <div class="hero-slide absolute inset-0 opacity-0" data-hero="photo">
+        <picture>
+          <source media="(max-width: 767px)" srcset="/hero/green-thamarin-mobile.jpg">
+          <img src="/hero/green-thamarin.jpeg" class="w-full h-full object-cover" alt="Green Thamarin residence">
+        </picture>
+      </div>
+      <div class="hero-slide absolute inset-0 opacity-0" data-hero="photo">
+        <picture>
+          <source media="(max-width: 767px)" srcset="/hero/lavida-mobile.jpg">
+          <img src="/hero/lavida.jpeg" class="w-full h-full object-cover" alt="Lavida residence">
+        </picture>
+      </div>
+      <div class="hero-slide absolute inset-0 opacity-0" data-hero="photo">
+        <picture>
+          <source media="(max-width: 767px)" srcset="/hero/melanesia-mobile.jpg">
+          <img src="/hero/melanesia.jpeg" class="w-full h-full object-cover" alt="Melanesia residence">
+        </picture>
+      </div>
+      <div class="hero-slide absolute inset-0 opacity-0" data-hero="photo">
+        <picture>
+          <source media="(max-width: 767px)" srcset="/hero/polinesia-mobile.jpg">
+          <img src="/hero/polinesia.jpeg" class="w-full h-full object-cover" alt="Polinesia residence">
+        </picture>
+      </div>
+    </div>
     <div class="absolute inset-0" style="background:radial-gradient(ellipse at center,rgba(23,52,38,.15) 0%,rgba(23,52,38,.55) 70%,rgba(15,30,22,.85) 100%)"></div>
   </div>
   <canvas id="heroGl" class="absolute inset-0 w-full h-full" style="z-index:1;mix-blend-mode:screen;opacity:.5"></canvas>
@@ -43,12 +77,20 @@ const pageMarkup = String.raw`
       <a href="#reserve" class="btn bg-[#c49a4a] text-[#173426] text-xs md:text-sm font-semibold tracking-wide px-7 py-4 rounded-full flex items-center gap-2.5 hover:bg-white">
         <iconify-icon icon="solar:chat-round-line-linear" width="18"></iconify-icon> Consult via WhatsApp <span class="arw">&rarr;</span>
       </a>
-      <a href="#projects" class="btn border border-white/50 text-white text-xs md:text-sm font-medium tracking-wide px-7 py-4 rounded-full flex items-center gap-2.5 hover:bg-white/10">
+      <a href="#projects" class="btn border border-white/50 text-white text-xs md:text-sm font-medium tracking-wide px-7 py-4 rounded-full items-center gap-2.5 hover:bg-white/10 hidden md:flex">
         View Projects <span class="arw">&rarr;</span>
       </a>
     </div>
   </div>
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2" style="z-index:3">
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3" style="z-index:3">
+    <div id="heroDots" class="flex items-center gap-2" aria-label="Hero media slides" role="tablist">
+      <button type="button" class="hero-dot is-active" data-hero-index="0" aria-label="Show video" role="tab" aria-selected="true"></button>
+      <button type="button" class="hero-dot" data-hero-index="1" aria-label="Show Green Asia" role="tab" aria-selected="false"></button>
+      <button type="button" class="hero-dot" data-hero-index="2" aria-label="Show Green Thamarin" role="tab" aria-selected="false"></button>
+      <button type="button" class="hero-dot" data-hero-index="3" aria-label="Show Lavida" role="tab" aria-selected="false"></button>
+      <button type="button" class="hero-dot" data-hero-index="4" aria-label="Show Melanesia" role="tab" aria-selected="false"></button>
+      <button type="button" class="hero-dot" data-hero-index="5" aria-label="Show Polinesia" role="tab" aria-selected="false"></button>
+    </div>
     <span class="text-white/60 text-[0.6rem] tracking-[0.3em] uppercase">Scroll</span>
     <iconify-icon icon="solar:alt-arrow-down-linear" width="18" class="text-white/60 animate-bounce"></iconify-icon>
   </div>
@@ -171,12 +213,18 @@ const pageMarkup = String.raw`
       <div class="absolute inset-0" style="background:linear-gradient(transparent,rgba(8,28,26,.66))"></div>
       <div class="absolute bottom-0 left-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-1">Green Asia</h3><p class="text-white/70 text-xs font-light mb-3">Garden-forward residences with soft green facades, natural shade, and relaxed daily living.</p><span class="text-[#c49a4a] text-xs font-semibold flex items-center gap-1.5">View Project <iconify-icon icon="solar:arrow-right-up-linear" width="14"></iconify-icon></span></div>
     </a>
-    <a href="#reserve" class="rv relative overflow-hidden rounded-lg h-[380px] flex flex-col justify-center items-start p-8 bg-[#204130] border border-white/10 group">
-      <iconify-icon icon="solar:map-point-linear" width="34" class="text-[#c49a4a] mb-5"></iconify-icon>
-      <h3 class="pf text-white text-2xl font-medium tracking-tight mb-3">Discover Your Fit</h3>
-      <p class="text-white/60 text-xs font-light mb-6">Let our team guide you to the right project for your goals.</p>
-      <span class="btn bg-[#c49a4a] text-[#173426] text-xs font-semibold px-5 py-3 rounded-full flex items-center gap-2">Consult Now <span class="arw">&rarr;</span></span>
+    <a href="#reserve" class="pcard rv group relative overflow-hidden rounded-lg h-[380px] block">
+      <img src="/Green%20Thamarin.jpeg" class="w-full h-full object-cover object-center" alt="Green Thamarin residential development">
+      <div class="absolute inset-0" style="background:linear-gradient(transparent,rgba(8,28,26,.66))"></div>
+      <div class="absolute bottom-0 left-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-1">Green Thamarin</h3><p class="text-white/70 text-xs font-light mb-3">Lush tropical living with open green corridors, breezy streetscapes, and nature-first family homes.</p><span class="text-[#c49a4a] text-xs font-semibold flex items-center gap-1.5">View Project <iconify-icon icon="solar:arrow-right-up-linear" width="14"></iconify-icon></span></div>
     </a>
+  </div>
+  <div class="rv mt-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 border-t border-white/10 pt-10">
+    <div>
+      <h3 class="pf text-white text-xl md:text-2xl font-medium tracking-tight mb-2">Not sure which project fits?</h3>
+      <p class="text-white/55 text-sm font-light max-w-md">Our team maps your goals to the right development — free consultation, no pressure.</p>
+    </div>
+    <a href="#reserve" class="btn bg-[#c49a4a] text-[#173426] text-xs font-semibold px-7 py-3.5 rounded-full flex items-center gap-2 shrink-0">Consult Now <span class="arw">&rarr;</span></a>
   </div>
 </section>
 
@@ -213,7 +261,7 @@ const pageMarkup = String.raw`
 <!-- NUMBERS -->
 <section class="on-light bg-[#f6f1e7]" style="padding:clamp(60px,9vw,120px) clamp(20px,5vw,84px)">
   <div class="grid grid-cols-2 lg:grid-cols-4 gap-8">
-    <div class="rv text-center md:text-left"><div class="pf text-[#204130] font-medium tracking-tight" style="font-size:clamp(2.5rem,5vw,4rem)"><span class="count" data-count="5">0</span></div><span class="text-[#1f1b13]/60 text-xs md:text-sm tracking-wide uppercase">Signature Projects</span></div>
+    <div class="rv text-center md:text-left"><div class="pf text-[#204130] font-medium tracking-tight" style="font-size:clamp(2.5rem,5vw,4rem)"><span class="count" data-count="6">0</span></div><span class="text-[#1f1b13]/60 text-xs md:text-sm tracking-wide uppercase">Signature Projects</span></div>
     <div class="rv text-center md:text-left"><div class="pf text-[#204130] font-medium tracking-tight" style="font-size:clamp(2.5rem,5vw,4rem)"><span class="count" data-count="100">0</span>+</div><span class="text-[#1f1b13]/60 text-xs md:text-sm tracking-wide uppercase">Homes Planned</span></div>
     <div class="rv text-center md:text-left"><div class="pf text-[#204130] font-medium tracking-tight" style="font-size:clamp(2.5rem,5vw,4rem)"><span class="count" data-count="1">0</span></div><span class="text-[#1f1b13]/60 text-xs md:text-sm tracking-wide uppercase">Trusted Developer</span></div>
     <div class="rv text-center md:text-left"><div class="pf text-[#204130] font-medium tracking-tight" style="font-size:clamp(2.5rem,5vw,4rem)">24/7</div><span class="text-[#1f1b13]/60 text-xs md:text-sm tracking-wide uppercase">WhatsApp Consultation</span></div>
@@ -348,7 +396,7 @@ export default function Home() {
     gsap.registerPlugin(ScrollTrigger);
     ScrollTrigger.config({ ignoreMobileResize: true });
     gsap.set(".ln>span", { yPercent: 115 });
-    gsap.set(["#heroMedia", "#bleedImg", "#whyMekaImg", ".film-slide"], {
+    gsap.set(["#heroMedia", "#bleedImg", "#whyMekaImg", ".hero-slide", ".film-slide"], {
       force3D: true,
       willChange: "transform, opacity",
     });
@@ -360,6 +408,64 @@ export default function Home() {
       ease: "power4.out",
       delay: 0.15,
     });
+
+    // Hero media slider: video + photos from /public/hero
+    const heroSlides = gsap.utils.toArray(".hero-slide");
+    const heroDots = gsap.utils.toArray(".hero-dot");
+    const heroVideo = document.getElementById("heroVideo");
+    let heroIndex = 0;
+    let heroTimer = null;
+    const HERO_INTERVAL = 5500;
+
+    const goToHeroSlide = (nextIndex) => {
+      if (!heroSlides.length) return;
+      const index = ((nextIndex % heroSlides.length) + heroSlides.length) % heroSlides.length;
+      if (index === heroIndex && heroTimer) return;
+
+      heroSlides.forEach((slide, i) => {
+        gsap.to(slide, {
+          opacity: i === index ? 1 : 0,
+          duration: 1.15,
+          ease: "power2.inOut",
+          overwrite: "auto",
+        });
+      });
+
+      heroDots.forEach((dot, i) => {
+        const active = i === index;
+        dot.classList.toggle("is-active", active);
+        dot.setAttribute("aria-selected", active ? "true" : "false");
+      });
+
+      if (heroVideo) {
+        if (index === 0) {
+          heroVideo.play?.().catch(() => {});
+        } else {
+          heroVideo.pause?.();
+        }
+      }
+
+      heroIndex = index;
+    };
+
+    const startHeroAutoplay = () => {
+      if (reduced || heroSlides.length < 2) return;
+      clearInterval(heroTimer);
+      heroTimer = setInterval(() => {
+        goToHeroSlide(heroIndex + 1);
+      }, HERO_INTERVAL);
+    };
+
+    heroDots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        const index = Number(dot.getAttribute("data-hero-index"));
+        if (Number.isNaN(index)) return;
+        goToHeroSlide(index);
+        startHeroAutoplay();
+      });
+    });
+
+    startHeroAutoplay();
 
     if (!reduced) {
       lenis = new Lenis({
@@ -624,6 +730,7 @@ export default function Home() {
 
     return () => {
       active = false;
+      clearInterval(heroTimer);
       lenis?.destroy();
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
       gsap.killTweensOf("*");
