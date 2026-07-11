@@ -13,7 +13,7 @@ import {
   trackPromoEvent,
 } from "../../lib/promoCampaigns";
 
-const AUTO_SLIDE_MS = 4000;
+const AUTO_SLIDE_MS = 3000;
 
 function prefersReducedMotion() {
   if (typeof window === "undefined") return false;
