@@ -731,6 +731,11 @@ html.promo-modal-open body {
   transform: translateY(0) scale(1);
 }
 
+.promo-dialog:focus,
+.promo-dialog:focus-visible {
+  outline: none;
+}
+
 .promo-sr-only {
   position: absolute;
   width: 1px;

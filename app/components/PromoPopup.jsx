@@ -56,6 +56,7 @@ export default function PromoPopup() {
   const [activeIndex, setActiveIndex] = useState(
     promoConfig.initialCampaignIndex ?? 0
   );
+  const [closeUnlocked, setCloseUnlocked] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [imageReady, setImageReady] = useState(false);
@@ -226,6 +227,20 @@ export default function PromoPopup() {
     });
   }, [isOpen, campaign]);
 
+  // Unlock close after first slide to 2nd ad (stays unlocked on loop)
+  useEffect(() => {
+    if (activeIndex < 1 || closeUnlocked) return;
+    setCloseUnlocked(true);
+  }, [activeIndex, closeUnlocked]);
+
+  useEffect(() => {
+    if (!closeUnlocked || !isOpen) return;
+    const t = window.setTimeout(() => {
+      closeRef.current?.focus({ preventScroll: true });
+    }, 40);
+    return () => clearTimeout(t);
+  }, [closeUnlocked, isOpen]);
+
   // Auto-slide between posters
   useEffect(() => {
     if (!isOpen || !isVisible || total < 2) return;
@@ -358,15 +373,17 @@ export default function PromoPopup() {
           Promo Meka Asia
         </h2>
 
-        <button
-          ref={closeRef}
-          type="button"
-          className="promo-close"
-          aria-label="Tutup promo"
-          onClick={close}
-        >
-          <span aria-hidden="true">×</span>
-        </button>
+        {closeUnlocked && (
+          <button
+            ref={closeRef}
+            type="button"
+            className="promo-close"
+            aria-label="Tutup promo"
+            onClick={close}
+          >
+            <span aria-hidden="true">×</span>
+          </button>
+        )}
 
         <div className="promo-poster-wrap">
           {/* eslint-disable-next-line @next/next/no-img-element */}
