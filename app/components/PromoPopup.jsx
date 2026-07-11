@@ -268,15 +268,29 @@ export default function PromoPopup() {
   }, [isOpen, isVisible, campaign]);
 
   // Scroll lock + focus + keyboard
+  // position:fixed preserves scroll on mobile (overflow:hidden alone jumps to top).
   useEffect(() => {
     if (!isOpen) return;
 
-    const scrollY = window.scrollY;
+    const scrollY = window.scrollY || window.pageYOffset || 0;
     const { body, documentElement } = document;
-    const prevOverflow = body.style.overflow;
-    const prevHtmlOverflow = documentElement.style.overflow;
-    const prevPad = body.style.paddingRight;
+    const prev = {
+      overflow: body.style.overflow,
+      position: body.style.position,
+      top: body.style.top,
+      left: body.style.left,
+      right: body.style.right,
+      width: body.style.width,
+      paddingRight: body.style.paddingRight,
+      htmlOverflow: documentElement.style.overflow,
+    };
     const scrollbar = window.innerWidth - documentElement.clientWidth;
+
+    body.style.position = "fixed";
+    body.style.top = `-${scrollY}px`;
+    body.style.left = "0";
+    body.style.right = "0";
+    body.style.width = "100%";
     body.style.overflow = "hidden";
     documentElement.style.overflow = "hidden";
     documentElement.classList.add("promo-modal-open");
@@ -298,15 +312,20 @@ export default function PromoPopup() {
     return () => {
       clearTimeout(focusTimer);
       document.removeEventListener("keydown", onKeyDown);
-      body.style.overflow = prevOverflow;
-      documentElement.style.overflow = prevHtmlOverflow;
       documentElement.classList.remove("promo-modal-open");
-      body.style.paddingRight = prevPad;
+      body.style.overflow = prev.overflow;
+      body.style.position = prev.position;
+      body.style.top = prev.top;
+      body.style.left = prev.left;
+      body.style.right = prev.right;
+      body.style.width = prev.width;
+      body.style.paddingRight = prev.paddingRight;
+      documentElement.style.overflow = prev.htmlOverflow;
       window.scrollTo(0, scrollY);
-      const prev = previouslyFocused.current;
-      if (prev && typeof prev.focus === "function") {
+      const focusEl = previouslyFocused.current;
+      if (focusEl && typeof focusEl.focus === "function") {
         try {
-          prev.focus({ preventScroll: true });
+          focusEl.focus({ preventScroll: true });
         } catch {
           // ignore
         }

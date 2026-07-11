@@ -708,6 +708,8 @@ export default function HomeClient({ newsSectionHtml = "" }) {
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
+    // Mobile URL bar show/hide shouldn't constantly reflow sticky cinematic.
+    ScrollTrigger.config({ ignoreMobileResize: true });
 
     const cleanups = [];
     const removers = [];
@@ -1441,24 +1443,21 @@ export default function HomeClient({ newsSectionHtml = "" }) {
             applyPush(cur, p);
             if (nxt !== cur && opNxt > 0.001) applyPush(nxt, p);
 
-            // Text: keep outgoing during early crossfade; swap while invisible
-            // so next hold only fades the correct label in.
-            if (seg.kind === "hold") {
-              if (seg.scene !== activeFilmIndex) {
-                activeFilmIndex = seg.scene;
-                setTextScene(seg.scene);
-              }
-              if (t > 0.65 && seg.scene + 1 < total && seg.scene + 1 !== lastDecodedNext) {
-                lastDecodedNext = seg.scene + 1;
-                void decodeSlideMedia(slides[seg.scene + 1]);
-              }
-            } else if (t >= 0.55 && seg.to !== activeFilmIndex) {
-              activeFilmIndex = seg.to;
-              setTextScene(seg.to);
-              if (seg.to + 1 < total && seg.to + 1 !== lastDecodedNext) {
-                lastDecodedNext = seg.to + 1;
-                void decodeSlideMedia(slides[seg.to + 1]);
-              }
+            // Label follows dominant slide (mobile flicks skip intermediate frames).
+            const textScene = opNxt > opCur ? nxt : cur;
+            if (textScene !== activeFilmIndex) {
+              activeFilmIndex = textScene;
+              setTextScene(textScene);
+            }
+
+            const prefetch = Math.min(total - 1, textScene + 1);
+            if (
+              prefetch > textScene &&
+              prefetch !== lastDecodedNext &&
+              (seg.kind === "hold" ? t > 0.5 : t > 0.35)
+            ) {
+              lastDecodedNext = prefetch;
+              void decodeSlideMedia(slides[prefetch]);
             }
 
             applyTextMotion(seg, t);
