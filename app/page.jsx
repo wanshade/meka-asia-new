@@ -82,17 +82,13 @@ const pageMarkup = String.raw`
       </a>
     </div>
   </div>
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3" style="z-index:3">
-    <div id="heroDots" class="flex items-center gap-2" aria-label="Hero media slides" role="tablist">
-      <button type="button" class="hero-dot is-active" data-hero-index="0" aria-label="Show video" role="tab" aria-selected="true"></button>
-      <button type="button" class="hero-dot" data-hero-index="1" aria-label="Show Green Asia" role="tab" aria-selected="false"></button>
-      <button type="button" class="hero-dot" data-hero-index="2" aria-label="Show Green Thamarin" role="tab" aria-selected="false"></button>
-      <button type="button" class="hero-dot" data-hero-index="3" aria-label="Show Lavida" role="tab" aria-selected="false"></button>
-      <button type="button" class="hero-dot" data-hero-index="4" aria-label="Show Melanesia" role="tab" aria-selected="false"></button>
-      <button type="button" class="hero-dot" data-hero-index="5" aria-label="Show Polinesia" role="tab" aria-selected="false"></button>
-    </div>
-    <span class="text-white/60 text-[0.6rem] tracking-[0.3em] uppercase">Scroll</span>
-    <iconify-icon icon="solar:alt-arrow-down-linear" width="18" class="text-white/60 animate-bounce"></iconify-icon>
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2" style="z-index:3" id="heroDots" aria-label="Hero media slides" role="tablist">
+    <button type="button" class="hero-dot is-active" data-hero-index="0" aria-label="Show video" role="tab" aria-selected="true"></button>
+    <button type="button" class="hero-dot" data-hero-index="1" aria-label="Show Green Asia" role="tab" aria-selected="false"></button>
+    <button type="button" class="hero-dot" data-hero-index="2" aria-label="Show Green Thamarin" role="tab" aria-selected="false"></button>
+    <button type="button" class="hero-dot" data-hero-index="3" aria-label="Show Lavida" role="tab" aria-selected="false"></button>
+    <button type="button" class="hero-dot" data-hero-index="4" aria-label="Show Melanesia" role="tab" aria-selected="false"></button>
+    <button type="button" class="hero-dot" data-hero-index="5" aria-label="Show Polinesia" role="tab" aria-selected="false"></button>
   </div>
 </section>
 
