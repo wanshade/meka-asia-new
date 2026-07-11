@@ -59,7 +59,7 @@ function buildPageMarkup(newsSectionHtml) {
   <div class="absolute inset-0" style="z-index:0">
     <div id="heroMedia" class="absolute inset-0 w-full h-[120%]">
       <div class="hero-slide absolute inset-0 is-active" data-hero="photo" data-hero-index="0">
-        <img src="/hero/meka-asia.jpeg" class="w-full h-full object-cover" alt="Meka Asia residence" decoding="async" fetchpriority="high" width="1600" height="900">
+        <img src="/hero/meka-asia.jpeg" class="hero-meka-asia-img w-full h-full object-cover" alt="Meka Asia residence" decoding="async" fetchpriority="high" width="1600" height="900">
       </div>
       <div class="hero-slide absolute inset-0 is-idle" data-hero="photo" data-hero-index="1">
         <picture>

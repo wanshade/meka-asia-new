@@ -121,6 +121,12 @@ h4,
   object-fit: cover;
 }
 
+@media (max-width: 767px) {
+  .hero-meka-asia-img {
+    object-position: 32% center;
+  }
+}
+
 .hero-poster {
   transition: opacity 0.4s ease;
   z-index: 1;
