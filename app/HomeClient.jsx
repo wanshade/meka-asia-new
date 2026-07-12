@@ -1313,8 +1313,12 @@ export default function HomeClient({ newsSectionHtml = "" }) {
         if (!wrapper || !slides.length) return;
 
         const total = slides.length;
-        const cfg =
-          mode === "mobile" ? cinematicConfig.mobile : cinematicConfig.desktop;
+        const reducedMotion = mode === "reduced";
+        const cfg = reducedMotion
+          ? { imageScale: 1, imagePan: 0 }
+          : mode === "mobile"
+            ? cinematicConfig.mobile
+            : cinematicConfig.desktop;
         const maxScale = cfg.imageScale;
         const panPx = cfg.imagePan;
         const startScale = 1 - (maxScale - 1) * 0.35;
@@ -1368,6 +1372,13 @@ export default function HomeClient({ newsSectionHtml = "" }) {
 
         /** Clock/label enter at hold start; exit early during crossfade. */
         const applyTextMotion = (seg, t) => {
+          if (reducedMotion) {
+            setClockOp?.(1);
+            setClockY?.(0);
+            setLabelOp?.(1);
+            setLabelY?.(0);
+            return;
+          }
           if (seg.kind === "hold") {
             // Enter over first ~18% of hold
             const enter = Math.min(1, t / 0.18);
@@ -1409,6 +1420,27 @@ export default function HomeClient({ newsSectionHtml = "" }) {
               nxt = seg.to;
               opCur = 1 - t;
               opNxt = t;
+            }
+
+            // iOS can inherit the system's Reduce Motion preference. Keep the
+            // story scroll-driven, but switch scenes discretely instead of
+            // freezing the cinematic on its first (07:00) frame.
+            if (reducedMotion) {
+              const scene = opNxt > opCur ? nxt : cur;
+              for (let i = 0; i < total; i++) {
+                const active = i === scene;
+                setSlideActive(slides[i], active);
+                setOpacity[i](active ? 1 : 0);
+                setScale[i](1);
+                setX[i](0);
+              }
+              if (scene !== activeFilmIndex) {
+                activeFilmIndex = scene;
+                setTextScene(scene);
+              }
+              applyTextMotion(seg, t);
+              setProgress?.(p);
+              return;
             }
 
             // Quantize opacity writes to reduce style thrash
@@ -1526,11 +1558,9 @@ export default function HomeClient({ newsSectionHtml = "" }) {
         document.querySelectorAll(".gl-canvas").forEach((c) => {
           c.style.display = "none";
         });
-        // Show all film slides static first frame
-        document.querySelectorAll("#filmStage .film-slide").forEach((s, i) => {
-          gsap.set(s, { opacity: i === 0 ? 1 : 0 });
-          setSlideActive(s, i === 0);
-        });
+        // Keep the story functional on devices with Reduce Motion enabled.
+        // Slides change discretely, without push-in, pan, or crossfade motion.
+        setupCinematic("reduced");
         return () => {
           heroAllowed = true;
         };
