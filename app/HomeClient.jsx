@@ -1396,14 +1396,8 @@ export default function HomeClient({ newsSectionHtml = "" }) {
           setLabelY?.(-textY * 0.5 * exit);
         };
 
-        ScrollTrigger.create({
-          trigger: wrapper,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: true,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            const { seg, t, progress: p } = resolveFilmSegment(self.progress);
+        const renderProgress = (progress) => {
+            const { seg, t, progress: p } = resolveFilmSegment(progress);
 
             let cur;
             let nxt;
@@ -1494,12 +1488,65 @@ export default function HomeClient({ newsSectionHtml = "" }) {
 
             applyTextMotion(seg, t);
             setProgress?.(p);
-          },
-        });
+        };
+
+        let teardownDriver;
+
+        if (mode === "mobile" || reducedMotion) {
+          // ScrollTrigger's cached measurements can stay at progress 0 on real
+          // iOS Safari when the dynamic browser chrome or Reduce Motion changes
+          // the visual viewport. Read the sticky wrapper directly instead.
+          let rafId = 0;
+          const viewport = window.visualViewport;
+          const stage = document.getElementById("filmStage");
+          let scrollRange = 1;
+
+          const updateFromNativeScroll = () => {
+            rafId = 0;
+            renderProgress(-wrapper.getBoundingClientRect().top / scrollRange);
+          };
+
+          const requestNativeUpdate = () => {
+            if (!rafId) rafId = window.requestAnimationFrame(updateFromNativeScroll);
+          };
+
+          const measureNativeRange = () => {
+            scrollRange = Math.max(
+              1,
+              wrapper.offsetHeight - (stage?.offsetHeight || window.innerHeight)
+            );
+            requestNativeUpdate();
+          };
+
+          window.addEventListener("scroll", requestNativeUpdate, { passive: true });
+          window.addEventListener("resize", measureNativeRange, { passive: true });
+          window.addEventListener("orientationchange", measureNativeRange);
+          viewport?.addEventListener("resize", measureNativeRange, { passive: true });
+          measureNativeRange();
+
+          teardownDriver = () => {
+            if (rafId) window.cancelAnimationFrame(rafId);
+            window.removeEventListener("scroll", requestNativeUpdate);
+            window.removeEventListener("resize", measureNativeRange);
+            window.removeEventListener("orientationchange", measureNativeRange);
+            viewport?.removeEventListener("resize", measureNativeRange);
+          };
+        } else {
+          const trigger = ScrollTrigger.create({
+            trigger: wrapper,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: true,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => renderProgress(self.progress),
+          });
+          teardownDriver = () => trigger.kill();
+        }
 
         // Decode first + second slide early
         void decodeSlideMedia(slides[0]);
         void decodeSlideMedia(slides[1]);
+        return teardownDriver;
       };
 
       const destroyLenis = () => {
@@ -1560,8 +1607,9 @@ export default function HomeClient({ newsSectionHtml = "" }) {
         });
         // Keep the story functional on devices with Reduce Motion enabled.
         // Slides change discretely, without push-in, pan, or crossfade motion.
-        setupCinematic("reduced");
+        const teardownCinematic = setupCinematic("reduced");
         return () => {
+          teardownCinematic?.();
           heroAllowed = true;
         };
       });
@@ -1578,7 +1626,7 @@ export default function HomeClient({ newsSectionHtml = "" }) {
 
         const teardownReveals = setupReveals(true);
         setupParallax(cfg.parallaxYPercent);
-        setupCinematic("mobile");
+        const teardownCinematic = setupCinematic("mobile");
         startHeroAutoplay();
 
         let orientTimer = null;
@@ -1597,6 +1645,7 @@ export default function HomeClient({ newsSectionHtml = "" }) {
         const bootRefresh = setTimeout(() => ScrollTrigger.refresh(), 350);
 
         return () => {
+          teardownCinematic?.();
           teardownReveals?.();
           stopHeroAutoplay();
           clearTimeout(orientTimer);
@@ -1623,7 +1672,7 @@ export default function HomeClient({ newsSectionHtml = "" }) {
 
         const teardownReveals = setupReveals(false);
         setupParallax(cfg.parallaxYPercent);
-        setupCinematic("desktop");
+        const teardownCinematic = setupCinematic("desktop");
         startHeroAutoplay();
 
         const glCleanups = [];
@@ -1647,6 +1696,7 @@ export default function HomeClient({ newsSectionHtml = "" }) {
         const bootRefresh = setTimeout(refreshOnce, 400);
 
         return () => {
+          teardownCinematic?.();
           teardownReveals?.();
           stopHeroAutoplay();
           clearTimeout(bootRefresh);
