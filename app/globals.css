@@ -713,8 +713,8 @@ html.promo-modal-open body {
   position: relative;
   display: inline-block;
   width: auto;
-  max-width: min(420px, calc(100vw - 24px));
-  max-height: min(92svh, 880px);
+  max-width: min(269px, 64vw);
+  max-height: min(58.88svh, 563px);
   background: transparent;
   border: none;
   border-radius: 12px;
@@ -790,9 +790,9 @@ html.promo-modal-open body {
 .promo-poster {
   display: block;
   width: auto;
-  max-width: min(420px, calc(100vw - 24px));
+  max-width: min(269px, 64vw);
   height: auto;
-  max-height: min(88svh, 840px);
+  max-height: min(56.32svh, 538px);
   object-fit: contain;
   border-radius: 12px;
   user-select: none;
@@ -801,7 +801,7 @@ html.promo-modal-open body {
 
 @media (max-width: 480px) {
   .promo-dialog {
-    max-width: calc(100vw - 28px);
+    max-width: 64vw;
   }
 
   .promo-close {
@@ -813,8 +813,8 @@ html.promo-modal-open body {
   }
 
   .promo-poster {
-    max-width: calc(100vw - 28px);
-    max-height: 86svh;
+    max-width: 64vw;
+    max-height: 55.04svh;
     border-radius: 10px;
   }
 }
