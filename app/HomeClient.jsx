@@ -1312,6 +1312,16 @@ export default function HomeClient({ newsSectionHtml = "" }) {
         const progressEl = document.getElementById("filmProg");
         if (!wrapper || !slides.length) return;
 
+        const touchDevice =
+          navigator.maxTouchPoints > 0 ||
+          window.matchMedia?.("(pointer: coarse)").matches;
+        if (
+          window.__mekaFilmFallbackInstalled &&
+          (touchDevice || mode === "mobile" || mode === "reduced")
+        ) {
+          return () => {};
+        }
+
         const total = slides.length;
         const reducedMotion = mode === "reduced";
         const cfg = reducedMotion
@@ -1492,7 +1502,7 @@ export default function HomeClient({ newsSectionHtml = "" }) {
 
         let teardownDriver;
 
-        if (mode === "mobile" || reducedMotion) {
+        if (mode === "mobile" || reducedMotion || touchDevice) {
           // ScrollTrigger's cached measurements can stay at progress 0 on real
           // iOS Safari when the dynamic browser chrome or Reduce Motion changes
           // the visual viewport. Read the sticky wrapper directly instead.

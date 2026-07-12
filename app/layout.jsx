@@ -1,4 +1,5 @@
 import { Inter, Playfair_Display } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const inter = Inter({
@@ -27,6 +28,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${inter.variable} ${playfair.variable}`}>
+        <Script
+          src="/cinematic-fallback.js?v=3"
+          strategy="beforeInteractive"
+        />
         {children}
       </body>
     </html>

@@ -296,8 +296,6 @@ h4,
 /* Hero / sticky stage: mobile stable svh only — never overwrite with dvh on mobile */
 #home {
   min-height: 100vh;
-  min-height: 100svh;
-  height: 100vh;
   height: 100svh;
 }
 
@@ -305,7 +303,7 @@ h4,
 .cinematic-wrapper {
   position: relative;
   /* Mobile pacing: ~450svh; desktop overridden below */
-  height: 450vh;
+  min-height: 450vh;
   height: 450svh;
 }
 
@@ -313,8 +311,6 @@ h4,
   position: sticky;
   top: 0;
   min-height: 100vh;
-  min-height: 100svh;
-  height: 100vh;
   height: 100svh;
   width: 100%;
 }
@@ -485,16 +481,14 @@ footer {
 
   .cinematic-wrapper {
     /* Desktop pacing: longer hold + ending */
-    height: 550vh;
+    min-height: 550vh;
     height: 550svh;
   }
 
   .cinematic-stage {
     /* Keep svh so sticky stage height stays stable during scroll chrome changes */
-    height: 100vh;
     height: 100svh;
     min-height: 100vh;
-    min-height: 100svh;
   }
 
 }
