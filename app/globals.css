@@ -168,7 +168,7 @@ h4,
 
 .nav-shell {
   z-index: 80;
-  top: 18px;
+  top: 0;
   left: 50%;
   width: min(calc(100% - 32px), 1180px);
   padding: 0.72rem clamp(14px, 2vw, 24px);
@@ -208,6 +208,17 @@ h4,
 .nav-cta:hover {
   background: var(--gold);
   color: var(--deep);
+}
+
+.mobile-menu-toggle,
+.mobile-nav-backdrop,
+.mobile-nav-panel {
+  display: none !important;
+}
+
+html.mobile-menu-open,
+html.mobile-menu-open body {
+  overflow: hidden;
 }
 
 .ln {
@@ -473,6 +484,15 @@ footer {
 
 /* Desktop */
 @media (min-width: 768px) {
+  #mobileMenuToggle,
+  #mobileNavBackdrop,
+  #mobileNavPanel {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+
   #home {
     /* Desktop may use dvh for better chrome fit */
     height: 100dvh;
@@ -505,9 +525,122 @@ footer {
 
   /* Solid nav — backdrop-filter is expensive during scroll on phones */
   .nav-shell {
+    top: 8px;
+    min-height: 64px;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
     background: rgba(252, 249, 243, 0.96);
+  }
+
+  .nav-logo-img {
+    width: 118px;
+  }
+
+  #mobileMenuToggle {
+    display: grid !important;
+    width: 42px;
+    height: 42px;
+    flex: 0 0 42px;
+    place-items: center;
+    border: 1px solid rgba(23, 52, 38, 0.16);
+    border-radius: 50%;
+    background: var(--deep);
+    color: var(--ivory);
+  }
+
+  .mobile-menu-toggle:focus-visible,
+  .mobile-nav-panel a:focus-visible {
+    outline: 2px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  #mobileNavBackdrop {
+    display: block !important;
+    position: fixed;
+    z-index: 70;
+    inset: 0;
+    visibility: hidden;
+    background: rgba(9, 24, 17, 0.54);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 220ms ease, visibility 220ms ease;
+  }
+
+  #mobileNavBackdrop.is-open {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  #mobileNavPanel {
+    display: flex !important;
+    position: fixed;
+    z-index: 75;
+    top: 80px;
+    right: 16px;
+    left: 16px;
+    max-height: calc(100svh - 112px);
+    flex-direction: column;
+    gap: 16px;
+    padding: 18px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    visibility: hidden;
+    border: 1px solid rgba(23, 52, 38, 0.14);
+    border-radius: 18px;
+    background: #fcf9f3;
+    box-shadow: 0 26px 80px rgba(9, 24, 17, 0.34);
+    opacity: 0;
+    transform: translateY(-12px) scale(0.985);
+    transform-origin: top center;
+    pointer-events: none;
+    transition: opacity 220ms ease, transform 220ms ease, visibility 220ms ease;
+  }
+
+  #mobileNavPanel.is-open {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .mobile-nav-links {
+    display: grid;
+  }
+
+  .mobile-nav-links a {
+    display: flex;
+    min-height: 46px;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(23, 52, 38, 0.1);
+    color: var(--deep);
+    font-size: 0.78rem;
+    font-weight: 650;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .mobile-nav-links a:last-child {
+    border-bottom: 0;
+  }
+
+  .mobile-nav-links .mobile-nav-feature {
+    color: #9a7127;
+  }
+
+  .mobile-nav-consult {
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    border-radius: 999px;
+    background: var(--deep);
+    color: var(--ivory);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
   }
 
   .gl-canvas {

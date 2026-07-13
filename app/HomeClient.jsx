@@ -48,11 +48,31 @@ function buildPageMarkup(newsSectionHtml) {
     <a href="#experience" class="nav-txt text-xs tracking-wide uppercase font-medium">Experience</a>
     <a href="#news" class="nav-txt text-xs tracking-wide uppercase font-medium">News</a>
     <a href="#gallery" class="nav-txt text-xs tracking-wide uppercase font-medium">Gallery</a>
+    <a href="/simulasi-kpr" class="nav-txt text-xs tracking-wide uppercase font-medium">Simulasi KPR</a>
   </div>
-  <a href="https://wa.me/6281931151888" target="_blank" rel="noopener noreferrer" class="nav-cta text-xs tracking-wide uppercase font-medium px-5 py-2.5 rounded-full flex items-center gap-2 transition">
+  <a href="https://wa.me/6281931151888" target="_blank" rel="noopener noreferrer" class="nav-cta text-xs tracking-wide uppercase font-medium px-5 py-2.5 rounded-full hidden md:flex items-center gap-2 transition">
     <iconify-icon icon="solar:chat-round-line-linear" width="16"></iconify-icon> Consult
   </a>
+  <button id="mobileMenuToggle" class="mobile-menu-toggle hidden" type="button" aria-label="Buka menu navigasi" aria-controls="mobileNavPanel" aria-expanded="false">
+    <iconify-icon id="mobileMenuIcon" icon="solar:hamburger-menu-linear" width="24"></iconify-icon>
+  </button>
 </nav>
+<div id="mobileNavBackdrop" class="mobile-nav-backdrop hidden" aria-hidden="true"></div>
+<div id="mobileNavPanel" class="mobile-nav-panel hidden" role="dialog" aria-modal="true" aria-label="Menu navigasi" aria-hidden="true" inert>
+  <nav class="mobile-nav-links" aria-label="Navigasi mobile">
+    <a href="#home">Home</a>
+    <a href="#why-meka">About</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#news">News</a>
+    <a href="#gallery">Gallery</a>
+    <a href="/simulasi-kpr" class="mobile-nav-feature">Simulasi KPR</a>
+  </nav>
+  <a href="https://wa.me/6281931151888" target="_blank" rel="noopener noreferrer" class="mobile-nav-consult">
+    <iconify-icon icon="solar:chat-round-line-linear" width="18"></iconify-icon>
+    Consult via WhatsApp
+  </a>
+</div>
 
 <!-- HERO -->
 <section id="home" class="relative overflow-hidden">
@@ -70,7 +90,7 @@ function buildPageMarkup(newsSectionHtml) {
       <div class="hero-slide absolute inset-0 is-idle" data-hero="photo" data-hero-index="2">
         <picture>
           <source media="(max-width: 767px)" srcset="/hero/green-thamarin-mobile.jpg">
-          <img src="/hero/green-thamarin.jpeg" class="w-full h-full object-cover" alt="Green Thamarin residence" loading="lazy" decoding="async" width="1600" height="900">
+          <img src="/hero/green-thamarin.jpeg" class="w-full h-full object-cover" alt="Green Tamarin residence" loading="lazy" decoding="async" width="1600" height="900">
         </picture>
       </div>
       <div class="hero-slide absolute inset-0 is-idle" data-hero="photo" data-hero-index="3">
@@ -114,7 +134,7 @@ function buildPageMarkup(newsSectionHtml) {
   <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2" style="z-index:3" id="heroDots" aria-label="Hero media slides" role="tablist">
     <button type="button" class="hero-dot is-active" data-hero-index="0" aria-label="Show Meka Asia" role="tab" aria-selected="true"></button>
     <button type="button" class="hero-dot" data-hero-index="1" aria-label="Show Green Asia" role="tab" aria-selected="false"></button>
-    <button type="button" class="hero-dot" data-hero-index="2" aria-label="Show Green Thamarin" role="tab" aria-selected="false"></button>
+    <button type="button" class="hero-dot" data-hero-index="2" aria-label="Show Green Tamarin" role="tab" aria-selected="false"></button>
     <button type="button" class="hero-dot" data-hero-index="3" aria-label="Show Lavida" role="tab" aria-selected="false"></button>
     <button type="button" class="hero-dot" data-hero-index="4" aria-label="Show Melanesia" role="tab" aria-selected="false"></button>
     <button type="button" class="hero-dot" data-hero-index="5" aria-label="Show Polinesia" role="tab" aria-selected="false"></button>
@@ -221,9 +241,9 @@ function buildPageMarkup(newsSectionHtml) {
       <div class="absolute bottom-0 left-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-1">Living Asia</h3><p class="text-white/70 text-xs font-light mb-3">A modern residential neighborhood with tropical streetscapes and everyday family comfort.</p><span class="text-[#c49a4a] text-xs font-semibold flex items-center gap-1.5">View Project <iconify-icon icon="solar:arrow-right-up-linear" width="14"></iconify-icon></span></div>
     </a>
     <a href="#reserve" class="pcard rv group relative overflow-hidden rounded-lg h-[380px] block">
-      ${mediaPicture({ name: "lavida-show-unit", alt: "Lavida show unit exterior", imgClass: "w-full h-full object-cover object-center", sizes: cardSizes })}
+      ${mediaPicture({ name: "green-thamarin", alt: "Green Tamarin residential development", imgClass: "w-full h-full object-cover object-center", sizes: cardSizes, widths: [480, 768, 1280] })}
       <div class="absolute inset-0" style="background:linear-gradient(transparent,rgba(8,28,26,.66))"></div>
-      <div class="absolute bottom-0 left-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-1">Lavida</h3><p class="text-white/70 text-xs font-light mb-3">Compact modern homes with clean gable forms, green frontage, and practical daily comfort.</p><span class="text-[#c49a4a] text-xs font-semibold flex items-center gap-1.5">View Project <iconify-icon icon="solar:arrow-right-up-linear" width="14"></iconify-icon></span></div>
+      <div class="absolute bottom-0 left-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-1">Green Tamarin</h3><p class="text-white/70 text-xs font-light mb-3">Lush tropical living with open green corridors, breezy streetscapes, and nature-first family homes.</p><span class="text-[#c49a4a] text-xs font-semibold flex items-center gap-1.5">View Project <iconify-icon icon="solar:arrow-right-up-linear" width="14"></iconify-icon></span></div>
     </a>
     <a href="#reserve" class="pcard rv group relative overflow-hidden rounded-lg h-[380px] block">
       ${mediaPicture({ name: "melanesia-private-facade", alt: "Melanesia private residence facade", imgClass: "w-full h-full object-cover object-center", sizes: cardSizes })}
@@ -241,9 +261,9 @@ function buildPageMarkup(newsSectionHtml) {
       <div class="absolute bottom-0 left-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-1">Green Asia</h3><p class="text-white/70 text-xs font-light mb-3">Garden-forward residences with soft green facades, natural shade, and relaxed daily living.</p><span class="text-[#c49a4a] text-xs font-semibold flex items-center gap-1.5">View Project <iconify-icon icon="solar:arrow-right-up-linear" width="14"></iconify-icon></span></div>
     </a>
     <a href="#reserve" class="pcard rv group relative overflow-hidden rounded-lg h-[380px] block">
-      ${mediaPicture({ name: "green-thamarin", alt: "Green Thamarin residential development", imgClass: "w-full h-full object-cover object-center", sizes: cardSizes, widths: [480, 768, 1280] })}
+      ${mediaPicture({ name: "lavida-show-unit", alt: "Lavida show unit exterior", imgClass: "w-full h-full object-cover object-center", sizes: cardSizes })}
       <div class="absolute inset-0" style="background:linear-gradient(transparent,rgba(8,28,26,.66))"></div>
-      <div class="absolute bottom-0 left-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-1">Green Thamarin</h3><p class="text-white/70 text-xs font-light mb-3">Lush tropical living with open green corridors, breezy streetscapes, and nature-first family homes.</p><span class="text-[#c49a4a] text-xs font-semibold flex items-center gap-1.5">View Project <iconify-icon icon="solar:arrow-right-up-linear" width="14"></iconify-icon></span></div>
+      <div class="absolute bottom-0 left-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-1">Lavida</h3><p class="text-white/70 text-xs font-light mb-3">Compact modern homes with clean gable forms, green frontage, and practical daily comfort.</p><span class="text-[#c49a4a] text-xs font-semibold flex items-center gap-1.5">View Project <iconify-icon icon="solar:arrow-right-up-linear" width="14"></iconify-icon></span></div>
     </a>
   </div>
   <div class="rv mt-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 border-t border-white/10 pt-10">
@@ -251,7 +271,10 @@ function buildPageMarkup(newsSectionHtml) {
       <h3 class="pf text-white text-xl md:text-2xl font-medium tracking-tight mb-2">Not sure which project fits?</h3>
       <p class="text-white/55 text-sm font-light max-w-md">Our team maps your goals to the right development — free consultation, no pressure.</p>
     </div>
-    <a href="https://wa.me/6281931151888" target="_blank" rel="noopener noreferrer" class="btn bg-[#c49a4a] text-[#173426] text-xs font-semibold px-7 py-3.5 rounded-full flex items-center gap-2 shrink-0">Consult Now <span class="arw">&rarr;</span></a>
+    <div class="flex flex-wrap items-center gap-3 shrink-0">
+      <a href="/simulasi-kpr" class="btn border border-white/30 text-white text-xs font-semibold px-7 py-3.5 rounded-full flex items-center gap-2 hover:border-[#c49a4a] hover:text-[#c49a4a]">Simulasi KPR</a>
+      <a href="https://wa.me/6281931151888" target="_blank" rel="noopener noreferrer" class="btn bg-[#c49a4a] text-[#173426] text-xs font-semibold px-7 py-3.5 rounded-full flex items-center gap-2">Consult Now <span class="arw">&rarr;</span></a>
+    </div>
   </div>
 </section>
 
@@ -347,6 +370,7 @@ ${newsSectionHtml}
       <span class="rv text-[#c49a4a] text-xs tracking-[0.3em] uppercase font-medium mb-5 block">Consultation</span>
       <h2 class="wipe pf text-[#fcf9f3] font-medium tracking-tight leading-[1.1] mb-7" style="font-size:clamp(2rem,4.5vw,3.4rem);text-shadow:0 2px 16px rgba(0,0,0,.4)">Start Your Property Journey in Lombok</h2>
       <p class="rv text-white/80 text-sm md:text-base font-light max-w-lg">Speak with the Meka Asia Property team and discover the right project for your lifestyle or investment goals.</p>
+      <a href="/simulasi-kpr" class="rv mt-8 inline-flex items-center gap-3 rounded-full border border-[#c49a4a]/60 px-6 py-3 text-sm font-medium text-[#e0c783] transition hover:border-white hover:bg-white hover:text-[#173426]">Simulasi KPR Mandiri <span aria-hidden="true">&rarr;</span></a>
     </div>
     <div class="rv bg-white/5 backdrop-blur-sm border border-white/15 rounded-xl p-8 md:p-10">
       <form id="consultForm" class="space-y-7" novalidate>
@@ -405,6 +429,7 @@ ${newsSectionHtml}
 
     <div class="flex flex-col gap-4 pt-6 text-sm text-[#e0c783]/60 md:flex-row md:items-center md:justify-between">
       <div class="flex flex-wrap gap-x-6 gap-y-2">
+        <a href="/simulasi-kpr" class="transition hover:text-[#e0c783]">Simulasi KPR Mandiri</a>
         <a href="#" class="transition hover:text-[#e0c783]">Kebijakan Privasi</a>
         <a href="#" class="transition hover:text-[#e0c783]">Syarat &amp; Ketentuan</a>
       </div>
@@ -732,11 +757,86 @@ export default function HomeClient({ newsSectionHtml = "" }) {
     const scope = document;
     const ctx = gsap.context(() => {
       const nav = document.getElementById("nav");
+      const mobileMenuToggle = document.getElementById("mobileMenuToggle");
+      const mobileMenuIcon = document.getElementById("mobileMenuIcon");
+      const mobileNavPanel = document.getElementById("mobileNavPanel");
+      const mobileNavBackdrop = document.getElementById("mobileNavBackdrop");
       const heroSlides = gsap.utils.toArray(".hero-slide");
       const heroDots = gsap.utils.toArray(".hero-dot");
       const heroVideo = document.getElementById("heroVideo");
       const heroPoster = document.getElementById("heroPoster");
       const HERO_INTERVAL = 5500;
+
+      // ---- Mobile navigation ----
+      let mobileMenuOpen = false;
+      const setMobileMenu = (open, { returnFocus = false } = {}) => {
+        if (!mobileMenuToggle || !mobileNavPanel || !mobileNavBackdrop) return;
+        mobileMenuOpen = open;
+        mobileMenuToggle.setAttribute("aria-expanded", String(open));
+        mobileMenuToggle.setAttribute(
+          "aria-label",
+          open ? "Tutup menu navigasi" : "Buka menu navigasi"
+        );
+        mobileNavPanel.setAttribute("aria-hidden", String(!open));
+        mobileNavBackdrop.setAttribute("aria-hidden", String(!open));
+        mobileNavPanel.classList.toggle("is-open", open);
+        mobileNavBackdrop.classList.toggle("is-open", open);
+        document.documentElement.classList.toggle("mobile-menu-open", open);
+        if (open) mobileNavPanel.removeAttribute("inert");
+        else mobileNavPanel.setAttribute("inert", "");
+        mobileMenuIcon?.setAttribute(
+          "icon",
+          open ? "solar:close-circle-linear" : "solar:hamburger-menu-linear"
+        );
+
+        if (open) {
+          window.requestAnimationFrame(() =>
+            mobileNavPanel.querySelector("a")?.focus({ preventScroll: true })
+          );
+        } else if (returnFocus) {
+          mobileMenuToggle.focus({ preventScroll: true });
+        }
+      };
+
+      if (mobileMenuToggle && mobileNavPanel && mobileNavBackdrop) {
+        on(mobileMenuToggle, "click", () =>
+          setMobileMenu(!mobileMenuOpen)
+        );
+        on(mobileNavBackdrop, "click", () =>
+          setMobileMenu(false, { returnFocus: true })
+        );
+        mobileNavPanel.querySelectorAll("a").forEach((link) => {
+          on(link, "click", () => setMobileMenu(false));
+        });
+        on(document, "keydown", (event) => {
+          if (!mobileMenuOpen) return;
+          if (event.key === "Escape") {
+            event.preventDefault();
+            setMobileMenu(false, { returnFocus: true });
+            return;
+          }
+          if (event.key !== "Tab") return;
+
+          const focusable = [
+            mobileMenuToggle,
+            ...mobileNavPanel.querySelectorAll("a[href]"),
+          ];
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+          } else if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+          }
+        });
+        const desktopMenuMq = window.matchMedia("(min-width: 768px)");
+        on(desktopMenuMq, "change", (event) => {
+          if (event.matches) setMobileMenu(false);
+        });
+        cleanups.push(() => setMobileMenu(false));
+      }
 
       // Only current + next compositor layers
       heroSlides.forEach((slide, i) => {
