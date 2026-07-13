@@ -168,7 +168,7 @@ h4,
 
 .nav-shell {
   z-index: 80;
-  top: 0;
+  top: 12px;
   left: 50%;
   width: min(calc(100% - 32px), 1180px);
   padding: 0.72rem clamp(14px, 2vw, 24px);
