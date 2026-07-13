@@ -2,10 +2,12 @@
   "name": "meka-asia-next",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "test:kpr": "node scripts/test-kpr-calculations.mjs",
     "optimize:images": "node scripts/optimize-images.mjs",
     "optimize:artikel": "node scripts/optimize-artikel-images.mjs"
   },
