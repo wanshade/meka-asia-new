@@ -124,7 +124,7 @@ function buildPageMarkup(newsSectionHtml) {
       <a href="https://wa.me/6281931151888" target="_blank" rel="noopener noreferrer" class="btn bg-[#c49a4a] text-[#173426] text-xs md:text-sm font-semibold tracking-wide px-7 py-4 rounded-full flex items-center gap-2.5 hover:bg-white">
         <iconify-icon icon="solar:chat-round-line-linear" width="18"></iconify-icon> Consult via WhatsApp <span class="arw">&rarr;</span>
       </a>
-      <a href="/simulasi-kpr" class="btn border border-white/50 text-white text-xs md:text-sm font-medium tracking-wide px-7 py-4 rounded-full items-center gap-2.5 hover:bg-white/10 hidden md:flex">
+      <a href="/simulasi-kpr" class="btn border border-white/50 text-white text-xs md:text-sm font-medium tracking-wide px-7 py-4 rounded-full flex items-center gap-2.5 hover:bg-white/10">
         Simulasi KPR <span class="arw">&rarr;</span>
       </a>
     </div>
