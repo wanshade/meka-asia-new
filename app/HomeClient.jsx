@@ -47,7 +47,6 @@ function buildPageMarkup(newsSectionHtml) {
     <a href="#projects" class="nav-txt text-xs tracking-wide uppercase font-medium">Projects</a>
     <a href="#experience" class="nav-txt text-xs tracking-wide uppercase font-medium">Experience</a>
     <a href="#news" class="nav-txt text-xs tracking-wide uppercase font-medium">News</a>
-    <a href="#gallery" class="nav-txt text-xs tracking-wide uppercase font-medium">Gallery</a>
     <a href="/simulasi-kpr" class="nav-txt text-xs tracking-wide uppercase font-medium">Simulasi KPR</a>
   </div>
   <a href="https://wa.me/6281931151888" target="_blank" rel="noopener noreferrer" class="nav-cta text-xs tracking-wide uppercase font-medium px-5 py-2.5 rounded-full hidden md:flex items-center gap-2 transition">
@@ -65,7 +64,6 @@ function buildPageMarkup(newsSectionHtml) {
     <a href="#projects">Projects</a>
     <a href="#experience">Experience</a>
     <a href="#news">News</a>
-    <a href="#gallery">Gallery</a>
     <a href="/simulasi-kpr" class="mobile-nav-feature">Simulasi KPR</a>
   </nav>
   <a href="https://wa.me/6281931151888" target="_blank" rel="noopener noreferrer" class="mobile-nav-consult">
@@ -126,8 +124,8 @@ function buildPageMarkup(newsSectionHtml) {
       <a href="https://wa.me/6281931151888" target="_blank" rel="noopener noreferrer" class="btn bg-[#c49a4a] text-[#173426] text-xs md:text-sm font-semibold tracking-wide px-7 py-4 rounded-full flex items-center gap-2.5 hover:bg-white">
         <iconify-icon icon="solar:chat-round-line-linear" width="18"></iconify-icon> Consult via WhatsApp <span class="arw">&rarr;</span>
       </a>
-      <a href="#projects" class="btn border border-white/50 text-white text-xs md:text-sm font-medium tracking-wide px-7 py-4 rounded-full items-center gap-2.5 hover:bg-white/10 hidden md:flex">
-        View Projects <span class="arw">&rarr;</span>
+      <a href="/simulasi-kpr" class="btn border border-white/50 text-white text-xs md:text-sm font-medium tracking-wide px-7 py-4 rounded-full items-center gap-2.5 hover:bg-white/10 hidden md:flex">
+        Simulasi KPR <span class="arw">&rarr;</span>
       </a>
     </div>
   </div>
@@ -235,36 +233,36 @@ function buildPageMarkup(newsSectionHtml) {
     <h2 class="wipe pf text-[#fcf9f3] font-medium tracking-tight leading-[1.1]" style="font-size:clamp(1.9rem,4vw,3rem)">Signature Developments</h2>
   </div>
   <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-    <a href="#reserve" class="pcard rv group relative overflow-hidden rounded-lg h-[380px] block">
+    <article class="pcard rv group relative overflow-hidden rounded-lg h-[380px] block">
       ${mediaPicture({ name: "jaipur", alt: "Living Asia residential project", imgClass: "w-full h-full object-cover object-right", sizes: cardSizes, widths: [480, 768, 1280] })}
       <div class="absolute inset-0" style="background:linear-gradient(transparent,rgba(8,28,26,.66))"></div>
-      <div class="absolute bottom-0 left-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-1">Living Asia</h3><p class="text-white/70 text-xs font-light mb-3">A modern residential neighborhood with tropical streetscapes and everyday family comfort.</p><span class="text-[#c49a4a] text-xs font-semibold flex items-center gap-1.5">View Project <iconify-icon icon="solar:arrow-right-up-linear" width="14"></iconify-icon></span></div>
-    </a>
-    <a href="#reserve" class="pcard rv group relative overflow-hidden rounded-lg h-[380px] block">
+      <div class="absolute bottom-0 left-0 right-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-2">Living Asia</h3><p class="text-[#e8d5a8] text-sm font-medium mb-1.5">Harga mulai Rp850 juta</p><a href="https://maps.app.goo.gl/mTowkN26ADg9FQS66" target="_blank" rel="noopener noreferrer" aria-label="Buka lokasi Living Asia di Google Maps" class="project-card-location text-white/75 text-xs font-light inline-flex items-center gap-1.5 hover:text-white"><iconify-icon icon="solar:map-point-linear" width="15"></iconify-icon><span>Jl. Bypass, Lombok Barat</span></a></div>
+    </article>
+    <article class="pcard rv group relative overflow-hidden rounded-lg h-[380px] block">
       ${mediaPicture({ name: "green-thamarin", alt: "Green Tamarin residential development", imgClass: "w-full h-full object-cover object-center", sizes: cardSizes, widths: [480, 768, 1280] })}
       <div class="absolute inset-0" style="background:linear-gradient(transparent,rgba(8,28,26,.66))"></div>
-      <div class="absolute bottom-0 left-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-1">Green Tamarin</h3><p class="text-white/70 text-xs font-light mb-3">Lush tropical living with open green corridors, breezy streetscapes, and nature-first family homes.</p><span class="text-[#c49a4a] text-xs font-semibold flex items-center gap-1.5">View Project <iconify-icon icon="solar:arrow-right-up-linear" width="14"></iconify-icon></span></div>
-    </a>
-    <a href="#reserve" class="pcard rv group relative overflow-hidden rounded-lg h-[380px] block">
+      <div class="absolute bottom-0 left-0 right-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-2">Green Tamarin</h3><p class="text-[#e8d5a8] text-sm font-medium mb-1.5">Mulai dari Rp185 juta</p><a href="https://maps.app.goo.gl/UiFPziMVeEoFJQ9M7" target="_blank" rel="noopener noreferrer" aria-label="Buka lokasi Green Tamarin di Google Maps" class="project-card-location text-white/75 text-xs font-light inline-flex items-center gap-1.5 hover:text-white"><iconify-icon icon="solar:map-point-linear" width="15"></iconify-icon><span>Jl. Abdul Rahman, Bagik Polak</span></a></div>
+    </article>
+    <article class="pcard rv group relative overflow-hidden rounded-lg h-[380px] block">
       ${mediaPicture({ name: "melanesia-private-facade", alt: "Melanesia private residence facade", imgClass: "w-full h-full object-cover object-center", sizes: cardSizes })}
       <div class="absolute inset-0" style="background:linear-gradient(transparent,rgba(8,28,26,.66))"></div>
-      <div class="absolute bottom-0 left-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-1">Melanesia</h3><p class="text-white/70 text-xs font-light mb-3">Private tropical homes with warm timber accents, clean lines, and calm residential streets.</p><span class="text-[#c49a4a] text-xs font-semibold flex items-center gap-1.5">View Project <iconify-icon icon="solar:arrow-right-up-linear" width="14"></iconify-icon></span></div>
-    </a>
-    <a href="#reserve" class="pcard rv group relative overflow-hidden rounded-lg h-[380px] block">
+      <div class="absolute bottom-0 left-0 right-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-2">Melanesia</h3><p class="text-[#e8d5a8] text-sm font-medium mb-1.5">Mulai dari Rp185–450 juta</p><a href="https://maps.app.goo.gl/vSgiFsz75Vd4Qo7X8" target="_blank" rel="noopener noreferrer" aria-label="Buka lokasi Melanesia di Google Maps" class="project-card-location text-white/75 text-xs font-light inline-flex items-center gap-1.5 hover:text-white"><iconify-icon icon="solar:map-point-linear" width="15"></iconify-icon><span>Jl. Abdul Rahman, Bagik Polak</span></a></div>
+    </article>
+    <article class="pcard rv group relative overflow-hidden rounded-lg h-[380px] block">
       ${mediaPicture({ name: "polinesia-gable-home", alt: "Polinesia modern gable home", imgClass: "w-full h-full object-cover object-center", sizes: cardSizes })}
       <div class="absolute inset-0" style="background:linear-gradient(transparent,rgba(8,28,26,.66))"></div>
-      <div class="absolute bottom-0 left-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-1">Polinesia</h3><p class="text-white/70 text-xs font-light mb-3">Modern gable homes with efficient layouts, warm facade details, and simple everyday access.</p><span class="text-[#c49a4a] text-xs font-semibold flex items-center gap-1.5">View Project <iconify-icon icon="solar:arrow-right-up-linear" width="14"></iconify-icon></span></div>
-    </a>
-    <a href="#reserve" class="pcard rv group relative overflow-hidden rounded-lg h-[380px] block">
+      <div class="absolute bottom-0 left-0 right-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-2">Polinesia</h3><p class="text-[#e8d5a8] text-sm font-medium mb-1.5">Mulai dari Rp185 juta</p><a href="https://maps.app.goo.gl/BbRzysQBy1GCPEcK7" target="_blank" rel="noopener noreferrer" aria-label="Buka lokasi Polinesia di Google Maps" class="project-card-location text-white/75 text-xs font-light inline-flex items-center gap-1.5 hover:text-white"><iconify-icon icon="solar:map-point-linear" width="15"></iconify-icon><span>Jl. Abdul Rahman, Bagik Polak</span></a></div>
+    </article>
+    <article class="pcard rv group relative overflow-hidden rounded-lg h-[380px] block">
       ${mediaPicture({ name: "green-asia-garden-home", alt: "Green Asia garden residence", imgClass: "w-full h-full object-cover object-center", sizes: cardSizes })}
       <div class="absolute inset-0" style="background:linear-gradient(transparent,rgba(8,28,26,.66))"></div>
-      <div class="absolute bottom-0 left-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-1">Green Asia</h3><p class="text-white/70 text-xs font-light mb-3">Garden-forward residences with soft green facades, natural shade, and relaxed daily living.</p><span class="text-[#c49a4a] text-xs font-semibold flex items-center gap-1.5">View Project <iconify-icon icon="solar:arrow-right-up-linear" width="14"></iconify-icon></span></div>
-    </a>
-    <a href="#reserve" class="pcard rv group relative overflow-hidden rounded-lg h-[380px] block">
+      <div class="absolute bottom-0 left-0 right-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-2">Green Asia</h3><p class="text-[#e8d5a8] text-sm font-medium mb-1.5">Mulai dari Rp185 juta</p><a href="https://maps.app.goo.gl/72PtHJrXoCdp3Sy2A" target="_blank" rel="noopener noreferrer" aria-label="Buka lokasi Green Asia di Google Maps" class="project-card-location text-white/75 text-xs font-light inline-flex items-center gap-1.5 hover:text-white"><iconify-icon icon="solar:map-point-linear" width="15"></iconify-icon><span>Jl. Abdul Rahman, Bagik Polak</span></a></div>
+    </article>
+    <article class="pcard rv group relative overflow-hidden rounded-lg h-[380px] block">
       ${mediaPicture({ name: "lavida-show-unit", alt: "Lavida show unit exterior", imgClass: "w-full h-full object-cover object-center", sizes: cardSizes })}
       <div class="absolute inset-0" style="background:linear-gradient(transparent,rgba(8,28,26,.66))"></div>
-      <div class="absolute bottom-0 left-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-1">Lavida</h3><p class="text-white/70 text-xs font-light mb-3">Compact modern homes with clean gable forms, green frontage, and practical daily comfort.</p><span class="text-[#c49a4a] text-xs font-semibold flex items-center gap-1.5">View Project <iconify-icon icon="solar:arrow-right-up-linear" width="14"></iconify-icon></span></div>
-    </a>
+      <div class="absolute bottom-0 left-0 right-0 p-6"><h3 class="pf text-white text-2xl font-medium tracking-tight mb-2">Lavida</h3><p class="text-[#e8d5a8] text-sm font-medium mb-1.5">Harga mulai Rp185 juta</p><a href="https://maps.app.goo.gl/sHj6sZJLPFedk8YPA" target="_blank" rel="noopener noreferrer" aria-label="Buka lokasi Lavida di Google Maps" class="project-card-location text-white/75 text-xs font-light inline-flex items-center gap-1.5 hover:text-white"><iconify-icon icon="solar:map-point-linear" width="15"></iconify-icon><span>Jl. Telaga Waru, Labuapi</span></a></div>
+    </article>
   </div>
   <div class="rv mt-12 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 border-t border-white/10 pt-10">
     <div>

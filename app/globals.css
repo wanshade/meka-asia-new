@@ -259,6 +259,22 @@ html.mobile-menu-open body {
   transform: scale(1.06);
 }
 
+.project-card-location {
+  min-height: 32px;
+  line-height: 1.45;
+  transition: color 0.2s ease;
+}
+
+.project-card-location iconify-icon {
+  flex: 0 0 auto;
+}
+
+.pcard a:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
 /* Touch devices: no expensive hover transforms */
 @media (hover: none) {
   .pcard:hover img {
