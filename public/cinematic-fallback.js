@@ -276,6 +276,17 @@
   }
 
   function boot() {
+    try {
+      if (
+        window.matchMedia("(max-width: 767px)").matches &&
+        document.querySelector(".film-mobile-caption")
+      ) {
+        return;
+      }
+    } catch (_error) {
+      // Continue with the legacy fallback when matchMedia is unavailable.
+    }
+
     if (startController()) return;
 
     var attempts = 0;

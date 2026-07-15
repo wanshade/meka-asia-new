@@ -380,6 +380,11 @@ html.mobile-menu-open body {
   will-change: transform;
 }
 
+.film-mobile-heading,
+.film-mobile-caption {
+  display: none;
+}
+
 .film-desktop {
   display: block;
 }
@@ -657,6 +662,128 @@ footer {
     font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 0.04em;
+  }
+
+  /* Mobile One Day story: native swipe slider, no sticky scroll runway. */
+  #experience {
+    padding: 44px 0 28px;
+    overflow: hidden;
+    background: #10251b;
+  }
+
+  .film-mobile-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 0 20px 18px;
+    color: var(--gold);
+  }
+
+  .film-mobile-heading span {
+    max-width: 220px;
+    font-size: 0.72rem;
+    font-weight: 650;
+    letter-spacing: 0.24em;
+    line-height: 1.5;
+    text-transform: uppercase;
+  }
+
+  .film-mobile-heading small {
+    flex: 0 0 auto;
+    padding-bottom: 2px;
+    color: rgba(252, 249, 243, 0.58);
+    font-size: 0.68rem;
+    font-weight: 450;
+  }
+
+  .cinematic-wrapper {
+    min-height: 0 !important;
+    height: auto !important;
+  }
+
+  .cinematic-stage {
+    position: relative !important;
+    display: flex;
+    width: 100%;
+    min-height: 0 !important;
+    height: auto !important;
+    align-items: stretch;
+    gap: 14px;
+    padding: 0 20px 12px;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scroll-padding-inline: 20px;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    background: transparent;
+  }
+
+  .cinematic-stage::-webkit-scrollbar {
+    display: none;
+  }
+
+  .film-slide {
+    position: relative !important;
+    inset: auto !important;
+    flex: 0 0 86vw;
+    min-height: 460px;
+    height: min(72svh, 620px);
+    overflow: hidden;
+    border-radius: 18px;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    pointer-events: auto !important;
+    scroll-snap-align: center;
+    scroll-snap-stop: always;
+    will-change: auto !important;
+  }
+
+  .film-slide::after {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10, 25, 18, 0.82), rgba(10, 25, 18, 0.08) 58%);
+    pointer-events: none;
+  }
+
+  .film-mobile-caption {
+    position: absolute;
+    z-index: 2;
+    right: 22px;
+    bottom: 24px;
+    left: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    color: var(--ivory);
+    pointer-events: none;
+  }
+
+  .film-mobile-caption strong {
+    font-family: var(--font-playfair), serif;
+    font-size: clamp(2.8rem, 15vw, 4.5rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.42);
+  }
+
+  .film-mobile-caption span {
+    color: rgba(252, 249, 243, 0.8);
+    font-family: var(--font-playfair), serif;
+    font-size: 1.15rem;
+    font-style: italic;
+  }
+
+  .film-cinematic-overlay,
+  .film-cinematic-copy,
+  .film-cinematic-progress {
+    display: none !important;
   }
 
   .gl-canvas {

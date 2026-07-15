@@ -144,8 +144,8 @@ function buildPageMarkup(newsSectionHtml) {
   <div class="max-w-3xl mx-auto flex flex-col items-center">
     <div class="rule w-px h-16 bg-[#c49a4a] mb-10"></div>
     <span class="rv text-[#c49a4a] text-xs tracking-[0.3em] uppercase font-medium mb-6">Company Profile</span>
-    <h2 class="wipe pf text-[#1f1b13] font-medium tracking-tight leading-[1.15] mb-8" style="font-size:clamp(1.8rem,4.5vw,3.2rem)">Built on Trust, Designed<br>for Lombok Living</h2>
-    <p class="rv text-[#1f1b13]/70 text-sm md:text-base font-light max-w-2xl">PT. Meka Asia Property is a real estate and property company established on July 14, 2018, and operates as part of Daya Cipta Group. As one of Lombok's leading property developers, Meka Asia Property develops premium residential communities through strategic locations, reliable planning, legal clarity, and consistent on-site delivery.</p>
+    <h2 class="wipe pf text-[#1f1b13] font-medium tracking-tight leading-[1.15] mb-8" style="font-size:clamp(1.8rem,4.5vw,3.2rem)">Built on Trust, Designed<br>for Lombok Lifestyle</h2>
+    <p class="rv text-[#1f1b13]/70 text-sm md:text-base font-light max-w-2xl">Sejak berdiri pada 14 Juli 2018, PT. Meka Asia Property berkomitmen menghadirkan hunian berkualitas yang selaras dengan gaya hidup Lombok. Setiap proyek dikembangkan di lokasi strategis dengan perencanaan matang, legalitas yang jelas, dan pelaksanaan pembangunan yang konsisten untuk memberikan rasa aman serta nilai jangka panjang bagi setiap pemilik rumah.</p>
     <div class="rv brand-marquee-shell" aria-label="Meka Asia portfolio logos">
       <div class="brand-marquee-track">
         <figure class="brand-marquee-card"><img src="/logos/living-asia-marquee.png" alt="Living Asia" width="154" height="68" loading="lazy" decoding="async"></figure>
@@ -278,30 +278,39 @@ function buildPageMarkup(newsSectionHtml) {
 
 <!-- EXPERIENCE / CINEMATIC: CSS sticky + ScrollTrigger progress (no pin) -->
 <section id="experience" class="relative">
+  <div class="film-mobile-heading">
+    <span>One Day With Meka Asia</span>
+    <small>Geser untuk mengikuti harinya</small>
+  </div>
   <div id="filmWrapper" class="film-desktop cinematic-wrapper">
-    <div id="filmStage" class="cinematic-stage relative overflow-hidden bg-black">
-      <div class="film-slide absolute inset-0 is-active" data-film-index="0">
+    <div id="filmStage" class="cinematic-stage relative overflow-hidden bg-black" role="region" aria-label="One Day With Meka Asia slider">
+      <div class="film-slide absolute inset-0 is-active" data-film-index="0" role="group" aria-label="1 dari 5">
         ${mediaPicture({ name: "morning-at-home-living-maldives", alt: "Morning at home balcony view", imgClass: "w-full h-full object-cover object-center", sizes: filmSizes, loading: "eager", fetchpriority: "high" })}
+        <div class="film-mobile-caption"><strong>07:00</strong><span>Morning at Home</span></div>
       </div>
-      <div class="film-slide absolute inset-0 is-idle" data-film-index="1">
+      <div class="film-slide absolute inset-0 is-idle" data-film-index="1" role="group" aria-label="2 dari 5">
         ${mediaPicture({ name: "living-asia-entrance-visit", alt: "Living Asia entrance walkthrough", imgClass: "w-full h-full object-cover object-left md:object-center", sizes: filmSizes, loading: "lazy" })}
+        <div class="film-mobile-caption"><strong>10:00</strong><span>Entrance Walkthrough</span></div>
       </div>
-      <div class="film-slide absolute inset-0 is-idle" data-film-index="2">
+      <div class="film-slide absolute inset-0 is-idle" data-film-index="2" role="group" aria-label="3 dari 5">
         ${mediaPicture({ name: "living-room-maldives", alt: "Living room lounge at midday", imgClass: "w-full h-full object-cover object-center", sizes: filmSizes, loading: "lazy" })}
+        <div class="film-mobile-caption"><strong>12:00</strong><span>Living Room</span></div>
       </div>
-      <div class="film-slide absolute inset-0 is-idle" data-film-index="3">
+      <div class="film-slide absolute inset-0 is-idle" data-film-index="3" role="group" aria-label="4 dari 5">
         ${mediaPicture({ name: "poolside-afternoon", alt: "Poolside afternoon at home", imgClass: "w-full h-full object-cover object-[68%_center] md:object-center", sizes: filmSizes, loading: "lazy" })}
+        <div class="film-mobile-caption"><strong>16:00</strong><span>Poolside Afternoon</span></div>
       </div>
-      <div class="film-slide absolute inset-0 is-idle" data-film-index="4">
+      <div class="film-slide absolute inset-0 is-idle" data-film-index="4" role="group" aria-label="5 dari 5">
         ${mediaPicture({ name: "future-secured", alt: "Warm modern interior staircase representing a secure future", imgClass: "w-full h-full object-cover object-center", sizes: filmSizes, loading: "lazy", widths: [480, 768, 1280] })}
+        <div class="film-mobile-caption"><strong>19:00</strong><span>Future Secured</span></div>
       </div>
-      <div class="absolute inset-0" style="background:linear-gradient(to top,rgba(15,30,22,.75),rgba(0,0,0,.2) 50%,rgba(0,0,0,.35));pointer-events:none"></div>
-      <div class="absolute inset-0 flex flex-col justify-center" style="padding:0 clamp(20px,5vw,84px);pointer-events:none">
+      <div class="film-cinematic-overlay absolute inset-0" style="background:linear-gradient(to top,rgba(15,30,22,.75),rgba(0,0,0,.2) 50%,rgba(0,0,0,.35));pointer-events:none"></div>
+      <div class="film-cinematic-copy absolute inset-0 flex flex-col justify-center" style="padding:0 clamp(20px,5vw,84px);pointer-events:none">
         <span class="text-[#c49a4a] text-xs tracking-[0.3em] uppercase font-medium mb-4">One Day With Meka Asia</span>
         <div id="filmClock" class="pf text-white font-medium tracking-tight leading-none mb-3" style="font-size:clamp(3rem,10vw,8rem);text-shadow:0 2px 20px rgba(0,0,0,.5)">07:00</div>
         <div id="filmLabel" class="pf text-white/80 text-2xl italic">Morning at Home</div>
       </div>
-      <div class="absolute bottom-10 left-0 w-full" style="padding:0 clamp(20px,5vw,84px);pointer-events:none">
+      <div class="film-cinematic-progress absolute bottom-10 left-0 w-full" style="padding:0 clamp(20px,5vw,84px);pointer-events:none">
         <div class="h-px bg-white/20 overflow-hidden">
           <div id="filmProg" class="h-full bg-[#c49a4a] origin-left" style="transform:scaleX(0)"></div>
         </div>
@@ -1409,6 +1418,15 @@ export default function HomeClient({ newsSectionHtml = "" }) {
         const label = document.getElementById("filmLabel");
         const progressEl = document.getElementById("filmProg");
         if (!wrapper || !slides.length) return;
+
+        // Mobile uses a native CSS scroll-snap slider instead of the
+        // scroll-driven cinematic timeline.
+        if (
+          window.matchMedia?.(MQ.mobile).matches &&
+          document.querySelector(".film-mobile-caption")
+        ) {
+          return () => {};
+        }
 
         const touchDevice =
           navigator.maxTouchPoints > 0 ||
