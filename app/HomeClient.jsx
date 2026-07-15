@@ -32,7 +32,8 @@ function mediaPicture({
 }
 
 const cardSizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw";
-const filmSizes = "100vw";
+const filmSizes =
+  "(max-width: 767px) 89vw, (max-height: 500px) and (hover: none) and (pointer: coarse) 89vw, 100vw";
 
 function buildPageMarkup(newsSectionHtml) {
   return `
@@ -41,7 +42,7 @@ function buildPageMarkup(newsSectionHtml) {
   <a href="#home" class="nav-logo flex items-center" aria-label="Meka Asia home">
     <img src="/brand/meka-asia-logo-new.png" class="nav-logo-img" alt="Meka Asia" width="124" height="32">
   </a>
-  <div class="hidden md:flex items-center gap-6 lg:gap-8">
+  <div class="desktop-nav-links hidden md:flex items-center gap-6 lg:gap-8">
     <a href="#home" class="nav-txt text-xs tracking-wide uppercase font-medium">Home</a>
     <a href="#why-meka" class="nav-txt text-xs tracking-wide uppercase font-medium">About</a>
     <a href="#projects" class="nav-txt text-xs tracking-wide uppercase font-medium">Projects</a>
@@ -280,13 +281,16 @@ function buildPageMarkup(newsSectionHtml) {
 <section id="experience" class="relative">
   <div class="film-mobile-heading">
     <span>One Day With Meka Asia</span>
-    <small>Geser untuk mengikuti harinya</small>
   </div>
   <div id="filmWrapper" class="film-desktop cinematic-wrapper">
-    <div id="filmStage" class="cinematic-stage relative overflow-hidden bg-black" role="region" aria-label="One Day With Meka Asia slider">
-      <div class="film-slide absolute inset-0 is-active" data-film-index="0" role="group" aria-label="1 dari 5">
+    <div id="filmStage" class="cinematic-stage relative overflow-hidden bg-black" role="region" aria-label="One Day With Meka Asia slider" tabindex="-1">
+      <div class="film-slide absolute inset-0 is-active is-mobile-current" data-film-index="0" role="group" aria-label="1 dari 5">
         ${mediaPicture({ name: "morning-at-home-living-maldives", alt: "Morning at home balcony view", imgClass: "w-full h-full object-cover object-center", sizes: filmSizes, loading: "eager", fetchpriority: "high" })}
         <div class="film-mobile-caption"><strong>07:00</strong><span>Morning at Home</span></div>
+        <div id="filmSwipeHint" class="film-swipe-hint" aria-hidden="true">
+          <span>Geser</span>
+          <iconify-icon icon="solar:arrow-right-linear" width="22" height="18"></iconify-icon>
+        </div>
       </div>
       <div class="film-slide absolute inset-0 is-idle" data-film-index="1" role="group" aria-label="2 dari 5">
         ${mediaPicture({ name: "living-asia-entrance-visit", alt: "Living Asia entrance walkthrough", imgClass: "w-full h-full object-cover object-left md:object-center", sizes: filmSizes, loading: "lazy" })}
@@ -317,6 +321,7 @@ function buildPageMarkup(newsSectionHtml) {
       </div>
     </div>
   </div>
+  <p id="filmMobileStatus" class="film-mobile-status" aria-live="polite" aria-atomic="true">07:00 Morning at Home, 1 dari 5</p>
 </section>
 
 <!-- NUMBERS -->
@@ -472,8 +477,18 @@ const motionConfig = {
 
 const MQ = {
   reduced: "(prefers-reduced-motion: reduce)",
-  mobile: "(max-width: 767px)",
-  desktop: "(min-width: 768px)",
+  mobile:
+    "(max-width: 767px), (max-height: 500px) and (hover: none) and (pointer: coarse)",
+  mobileMotion:
+    "(max-width: 767px) and (prefers-reduced-motion: no-preference), (max-height: 500px) and (hover: none) and (pointer: coarse) and (prefers-reduced-motion: no-preference)",
+  mobileReduced:
+    "(max-width: 767px) and (prefers-reduced-motion: reduce), (max-height: 500px) and (hover: none) and (pointer: coarse) and (prefers-reduced-motion: reduce)",
+  desktop:
+    "(min-width: 768px) and (min-height: 501px), (min-width: 768px) and (hover: hover), (min-width: 768px) and (pointer: fine)",
+  desktopMotion:
+    "(min-width: 768px) and (min-height: 501px) and (prefers-reduced-motion: no-preference), (min-width: 768px) and (hover: hover) and (prefers-reduced-motion: no-preference), (min-width: 768px) and (pointer: fine) and (prefers-reduced-motion: no-preference)",
+  desktopReduced:
+    "(min-width: 768px) and (min-height: 501px) and (prefers-reduced-motion: reduce), (min-width: 768px) and (hover: hover) and (prefers-reduced-motion: reduce), (min-width: 768px) and (pointer: fine) and (prefers-reduced-motion: reduce)",
   desktopFine: "(min-width: 768px) and (pointer: fine)",
 };
 
@@ -1706,10 +1721,198 @@ export default function HomeClient({ newsSectionHtml = "" }) {
         gsap.ticker.lagSmoothing(0);
       };
 
+      const setupMobileFilmSlider = () => {
+        const stage = document.getElementById("filmStage");
+        const slides = Array.from(stage?.querySelectorAll(".film-slide") || []);
+        const experience = document.getElementById("experience");
+        const status = document.getElementById("filmMobileStatus");
+        const nav = document.getElementById("nav");
+        if (!stage || !slides.length || !window.matchMedia(MQ.mobile).matches) {
+          return () => {};
+        }
+
+        const reduced = window.matchMedia(MQ.reduced).matches;
+        stage.tabIndex = 0;
+        let activeIndex = -1;
+        let rafId = 0;
+        let idleTimer = 0;
+        let initTimer = 0;
+        let resizeTimer = 0;
+        let slideStep = 1;
+        let hasSwiped = false;
+
+        const setNavFilmHidden = (hidden) => {
+          if (!nav) return;
+          nav.classList.toggle("is-film-hidden", hidden);
+          nav.toggleAttribute("inert", hidden);
+          if (hidden) {
+            nav.setAttribute("aria-hidden", "true");
+          } else {
+            nav.removeAttribute("aria-hidden");
+          }
+        };
+
+        const measure = () => {
+          const measuredStep = slides[1]
+            ? slides[1].offsetLeft - slides[0].offsetLeft
+            : slides[0].offsetWidth;
+          slideStep = Math.max(1, measuredStep);
+        };
+
+        const setActive = (nextIndex) => {
+          if (nextIndex === activeIndex) return;
+          activeIndex = nextIndex;
+          slides.forEach((slide, index) => {
+            const current = index === activeIndex;
+            slide.classList.toggle("is-mobile-current", current);
+            slide.classList.toggle(
+              "is-mobile-near",
+              Math.abs(index - activeIndex) <= 1
+            );
+            if (current) {
+              slide.setAttribute("aria-current", "true");
+            } else {
+              slide.removeAttribute("aria-current");
+            }
+          });
+          if (status) {
+            status.textContent = `${FILM_TIMES[activeIndex]} ${FILM_LABELS[activeIndex]}, ${activeIndex + 1} dari ${slides.length}`;
+          }
+        };
+
+        const renderCards = () => {
+          rafId = 0;
+          const rawProgress = stage.scrollLeft / slideStep;
+          const nearestSnap = Math.round(rawProgress);
+          const progress =
+            Math.abs(rawProgress - nearestSnap) < 0.025
+              ? nearestSnap
+              : rawProgress;
+          const nextIndex = Math.max(
+            0,
+            Math.min(slides.length - 1, Math.round(progress))
+          );
+
+          slides.forEach((slide, index) => {
+            const offset = Math.max(-1.25, Math.min(1.25, index - progress));
+            const distance = Math.min(1, Math.abs(offset));
+            slide.style.setProperty(
+              "--film-media-x",
+              reduced ? "0%" : `${(-offset * 2.6).toFixed(2)}%`
+            );
+            slide.style.setProperty(
+              "--film-copy-opacity",
+              reduced ? String(distance < 0.5 ? 1 : 0) : Math.max(0, 1 - distance * 1.35).toFixed(3)
+            );
+          });
+
+          setActive(nextIndex);
+          if (!hasSwiped && stage.scrollLeft > 6) {
+            hasSwiped = true;
+            experience?.classList.add("has-film-swiped");
+          }
+        };
+
+        const scheduleRender = () => {
+          stage.classList.add("is-swiping");
+          clearTimeout(idleTimer);
+          idleTimer = window.setTimeout(() => {
+            stage.classList.remove("is-swiping");
+            renderCards();
+          }, 120);
+          if (!rafId) rafId = window.requestAnimationFrame(renderCards);
+        };
+
+        const scrollToIndex = (index) => {
+          const slide = slides[index];
+          if (!slide) return;
+          stage.scrollTo({
+            left: slide.offsetLeft,
+            behavior: reduced ? "auto" : "smooth",
+          });
+        };
+
+        const onKeyDown = (event) => {
+          if (event.key === "ArrowRight") {
+            event.preventDefault();
+            scrollToIndex(Math.min(slides.length - 1, Math.max(0, activeIndex) + 1));
+          } else if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            scrollToIndex(Math.max(0, activeIndex - 1));
+          }
+        };
+
+        const onPointerDown = () => stage.classList.add("is-dragging");
+        const onPointerUp = () => stage.classList.remove("is-dragging");
+        const onResize = () => {
+          clearTimeout(resizeTimer);
+          resizeTimer = window.setTimeout(() => {
+            measure();
+            renderCards();
+          }, 120);
+        };
+
+        let experienceObserver = null;
+        if (experience && nav && "IntersectionObserver" in window) {
+          experienceObserver = new IntersectionObserver(
+            ([entry]) => {
+              setNavFilmHidden(
+                entry.isIntersecting && entry.intersectionRatio >= 0.55
+              );
+            },
+            { threshold: [0, 0.35, 0.55, 0.8] }
+          );
+          experienceObserver.observe(experience);
+        }
+
+        stage.addEventListener("scroll", scheduleRender, { passive: true });
+        stage.addEventListener("keydown", onKeyDown);
+        stage.addEventListener("pointerdown", onPointerDown, { passive: true });
+        stage.addEventListener("pointerup", onPointerUp, { passive: true });
+        stage.addEventListener("pointercancel", onPointerUp, { passive: true });
+        window.addEventListener("resize", onResize, { passive: true });
+        rafId = window.requestAnimationFrame(() => {
+          rafId = 0;
+          measure();
+          renderCards();
+        });
+        initTimer = window.setTimeout(() => {
+          measure();
+          renderCards();
+        }, 180);
+
+        return () => {
+          if (rafId) window.cancelAnimationFrame(rafId);
+          clearTimeout(idleTimer);
+          clearTimeout(initTimer);
+          clearTimeout(resizeTimer);
+          stage.classList.remove("is-swiping");
+          stage.classList.remove("is-dragging");
+          stage.tabIndex = -1;
+          if (document.activeElement === stage) stage.blur();
+          stage.removeEventListener("scroll", scheduleRender);
+          stage.removeEventListener("keydown", onKeyDown);
+          stage.removeEventListener("pointerdown", onPointerDown);
+          stage.removeEventListener("pointerup", onPointerUp);
+          stage.removeEventListener("pointercancel", onPointerUp);
+          window.removeEventListener("resize", onResize);
+          experienceObserver?.disconnect();
+          setNavFilmHidden(false);
+          experience?.classList.remove("has-film-swiped");
+          slides.forEach((slide) => {
+            slide.classList.remove("is-mobile-current");
+            slide.classList.remove("is-mobile-near");
+            slide.removeAttribute("aria-current");
+            slide.style.removeProperty("--film-media-x");
+            slide.style.removeProperty("--film-copy-opacity");
+          });
+        };
+      };
+
       const mm = gsap.matchMedia();
 
-      // Reduced motion
-      mm.add(MQ.reduced, () => {
+      // Reduced motion is split by breakpoint so orientation changes rebuild the controller.
+      const setupReducedMotion = () => {
         setMotionAttr("reduced");
         heroAllowed = false;
         allowHeroVideo = false;
@@ -1731,17 +1934,19 @@ export default function HomeClient({ newsSectionHtml = "" }) {
         document.querySelectorAll(".gl-canvas").forEach((c) => {
           c.style.display = "none";
         });
-        // Keep the story functional on devices with Reduce Motion enabled.
-        // Slides change discretely, without push-in, pan, or crossfade motion.
+        const teardownMobileSlider = setupMobileFilmSlider();
         const teardownCinematic = setupCinematic("reduced");
         return () => {
+          teardownMobileSlider?.();
           teardownCinematic?.();
           heroAllowed = true;
         };
-      });
+      };
+      mm.add(MQ.mobileReduced, setupReducedMotion);
+      mm.add(MQ.desktopReduced, setupReducedMotion);
 
-      // Mobile: native scroll + light transform parallax + sticky cinematic
-      mm.add(`${MQ.mobile} and (prefers-reduced-motion: no-preference)`, () => {
+      // Mobile: native card swipe + light transform parallax.
+      mm.add(MQ.mobileMotion, () => {
         setMotionAttr("mobile");
         const cfg = motionConfig.mobile;
         heroAllowed = true;
@@ -1752,6 +1957,7 @@ export default function HomeClient({ newsSectionHtml = "" }) {
 
         const teardownReveals = setupReveals(true);
         setupParallax(cfg.parallaxYPercent);
+        const teardownMobileSlider = setupMobileFilmSlider();
         const teardownCinematic = setupCinematic("mobile");
         startHeroAutoplay();
 
@@ -1771,6 +1977,7 @@ export default function HomeClient({ newsSectionHtml = "" }) {
         const bootRefresh = setTimeout(() => ScrollTrigger.refresh(), 350);
 
         return () => {
+          teardownMobileSlider?.();
           teardownCinematic?.();
           teardownReveals?.();
           stopHeroAutoplay();
@@ -1782,7 +1989,7 @@ export default function HomeClient({ newsSectionHtml = "" }) {
       });
 
       // Desktop (all pointers): parallax + sticky cinematic + optional WebGL
-      mm.add(`${MQ.desktop} and (prefers-reduced-motion: no-preference)`, () => {
+      mm.add(MQ.desktopMotion, () => {
         setMotionAttr("desktop");
         const cfg = motionConfig.desktop;
         heroAllowed = true;
